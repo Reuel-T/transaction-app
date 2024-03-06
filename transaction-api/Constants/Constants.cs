@@ -13,10 +13,19 @@
 
         public struct ClientFields
         {
-            public const string ClientID = "ClientID";
-            public const string Name = "Name";
-            public const string Surname = "Surname";
-            public const string ClientBalance = "ClientBalance";
+            public const string ClientID = "[ClientID]";
+            public const string Name = "[Name]";
+            public const string Surname = "[Surname]";
+            public const string ClientBalance = "[ClientBalance]";
+        }
+
+        public struct TransactionFields
+        {
+            public const string TransactionID = "[TransactionID]";
+            public const string Amount = "[Amount]";
+            public const string Comment = "[Comment]";
+            public const string TransactionTypeID = "[TransactionTypeID]";
+            public const string ClientID = "[ClientID]";
         }
 
     }

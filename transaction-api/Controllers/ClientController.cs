@@ -206,6 +206,64 @@ namespace transaction_api.Controllers
         }
 
         /// <summary>
+        /// Deletes a client based on the provided client ID.
+        /// </summary>
+        /// <param name="id">The ID of the client to be deleted.</param>
+        /// <returns>
+        /// An ActionResult representing the result of the delete operation.
+        /// </returns>
+        [HttpDelete("{id}")]
+        [SwaggerOperation(
+            Summary = "Delete an existing client",
+            Description = "Deletes an Existing client based on the provided id",
+            Tags = new[] { "Clients" }
+            )]
+        [SwaggerResponse(200, "Client Deleted successfully", typeof(void))]
+        [SwaggerResponse(400, "Bad request - ModelState is not valid", typeof(void))]
+        [SwaggerResponse(404, "Client not found", typeof(void))]
+        [SwaggerResponse(304, "Client not modified", typeof(void))]
+        [SwaggerResponse(500, "Internal server error", typeof(void))]
+        public async Task<ActionResult> DeleteClient(int id) 
+        {
+            try
+            {
+                // If model is invalid, return BadRequest
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest();
+                }
+
+                // Check if the client exists
+                var client = await _clientRepository.GetClientAsync(id);
+                if (client != null)
+                {
+
+                    bool deleteSuccess = await _clientRepository.DeleteClientAsync(id);
+                    // If client deleted successfully, return Ok
+                    if (deleteSuccess)
+                    {
+                        return Ok();
+                    }
+                    else
+                    {
+                        // If no change occurred during deletion, return StatusCode 304
+                        return StatusCode(304, "No Change");
+                    }
+                }
+                else
+                {
+                    // If client does not exist, return NotFound
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log and handle exceptions
+                return LogError(ex);
+            }
+        }
+    
+        /// <summary>
         /// Logs the error and returns a 500 Internal Server Error response.
         /// </summary>
         /// <param name="ex">The exception to log.</param>
