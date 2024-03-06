@@ -8,6 +8,8 @@ namespace transaction_api.Interfaces
     {
         public Task<IEnumerable<Client>> GetClientsAsync();
         public Task<Client?> GetClientAsync(int clientId);
-        public Task<Client> CreateClientAsync(ClientDTO client);
+        public Task<Client> CreateClientAsync(CreateClientDTO client);
+        public Task<bool> UpdateClientAsync(int clientId, UpdateClientDTO client);
+        public Task<bool> DeleteClientAsync(int clientId);
     }
 }

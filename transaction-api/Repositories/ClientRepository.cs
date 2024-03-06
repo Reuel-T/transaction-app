@@ -19,7 +19,7 @@ namespace transaction_api.Repositories
             _context = context;
         }
 
-        public async Task<Client> CreateClientAsync(ClientDTO client)
+        public async Task<Client> CreateClientAsync(CreateClientDTO client)
         {
             string query = $@"
                 INSERT INTO {Tables.Client}
@@ -72,6 +72,35 @@ namespace transaction_api.Repositories
             var clients = await connection.QueryAsync<Client>(query);
 
             return clients.ToList();
+        }
+
+        public async Task<bool> UpdateClientAsync(int clientId, UpdateClientDTO client)
+        {
+            string query = $@"
+                UPDATE {Tables.Client}
+                SET  
+                    {ClientFields.Name} = @Name,
+                    {ClientFields.Surname} = @Surname
+                WHERE {ClientFields.ClientID} = @Id
+            ";//Leave out Balance, this is affected when adding new transactions for a client 
+
+            var queryParams = new DynamicParameters();
+            queryParams.Add("Id", clientId, DbType.Int64);
+            queryParams.Add("Name", client.Name, DbType.String);
+            queryParams.Add("Surname", client.Surname, DbType.String);
+
+            using var connection = _context.CreateConnection();
+            int affectedRows = await connection.ExecuteAsync(query, queryParams);
+
+            if (affectedRows > 0)
+            {
+                _logger.Log(LogLevel.Information, $"Updated Client with ID : {clientId}");
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

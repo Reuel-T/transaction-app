@@ -1,0 +1,2 @@
+Swagger Docs https://medium.com/@niteshsinghal85/enhance-swagger-documentation-with-annotations-in-asp-net-core-d2981803e299
+Repository Pattern with Dapper https://code-maze.com/using-dapper-with-asp-net-core-web-api/

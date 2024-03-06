@@ -2,7 +2,7 @@
 
 namespace transaction_api.DTOs
 {
-    public class ClientDTO
+    public class CreateClientDTO
     {
         [Required(AllowEmptyStrings =false, ErrorMessage ="Name is Required"), MinLength(1, ErrorMessage = "Name is Required")]
         public  string Name { get; set; }
