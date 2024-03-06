@@ -1,6 +1,15 @@
+using transaction_api.Context;
+using transaction_api.Interfaces;
+using transaction_api.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+//single connection instance
+builder.Services.AddSingleton<DapperContext>();//DB Service
+
+builder.Services.AddScoped<IClientRepository, ClientRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
