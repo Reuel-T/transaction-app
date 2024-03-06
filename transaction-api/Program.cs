@@ -10,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 //single connection instance
 builder.Services.AddSingleton<DapperContext>();//DB Service
 
+//inject repos
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 

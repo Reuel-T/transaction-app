@@ -1,6 +1,9 @@
 ﻿using Dapper;
 using transaction_api.Context;
+using transaction_api.DTOs;
 using transaction_api.Interfaces;
+using transaction_api.Models;
+using System.Data;
 using static transaction_api.Constants.Constants;
 
 namespace transaction_api.Repositories
@@ -15,30 +18,79 @@ namespace transaction_api.Repositories
             _context = context;
             _logger = logger;
         }
-        /// <summary>
-        /// Deletes transactions associated with a specific client.
-        /// </summary>
-        /// <param name="clientID">The ID of the client for whom transactions should be deleted.</param>
-        /// <returns>The number of rows affected (deleted) from the Transactions table.</returns>
-        public async Task<int> DeleteTransactionsForClient(int clientID)
+
+        public Task<Transaction> GetTransactionAsync(long TransactionID)
         {
-            // Construct the SQL query for deleting transactions for the specified client
-            string query = $@"DELETE FROM {Tables.Transaction} WHERE {TransactionFields.ClientID} = @Id";
+            throw new NotImplementedException();
+        }
 
-            // Create a new database connection using the provided context
+        /// <summary>
+        /// Retrieves transactions for a client based on the provided client ID.
+        /// </summary>
+        /// <param name="ClientID">The ID of the client for whom transactions are to be retrieved.</param>
+        /// <returns>
+        /// A collection of DTOs containing transaction details for the specified client.
+        /// </returns>
+        public async Task<IEnumerable<ClientTransactionDTO>> GetTransactionsForClient(int ClientID)
+        {
+            //Join Query, aliases fields and joins 
+            //Just three tables with required fields
+
+            string query = $@"
+                SELECT 
+                    T.{TransactionFields.TransactionID}, 
+                    C.{ClientFields.Name}, 
+                    C.{ClientFields.Surname}, 
+                    T.{TransactionFields.Amount}, 
+                    T.{TransactionFields.Comment}, 
+                    TT.{TransactionTypeFields.TransactionTypeName}, 
+                    TT.{TransactionTypeFields.TransactionTypeID} 
+                FROM {Tables.Client} C 
+                JOIN {Tables.Transaction} T ON C.{ClientFields.ClientID} = T.{TransactionFields.ClientID} 
+                JOIN {Tables.TransactionType} TT ON T.{TransactionFields.TransactionTypeID} = TT.{TransactionTypeFields.TransactionTypeID} 
+                WHERE T.{TransactionFields.ClientID} = @ClientID
+            ";
+
             using var connection = _context.CreateConnection();
+            var clientTransactions = await connection.QueryAsync<ClientTransactionDTO>(query, new { ClientID });
 
-            // Execute the DELETE query asynchronously and capture the number of rows affected
-            int numberDeleted = await connection.ExecuteAsync(query, new{ Id=clientID });
+            return clientTransactions.ToList();
+        }
 
-            // Log information about the deletion if any rows were affected
-            if (numberDeleted > 0)
+        public async Task<bool> UpdateCommentForTransaction(long TransactionID, UpdateTransactionDTO transaction)
+        {
+            //Update Query
+            string query = $@"
+                UPDATE {Tables.Transaction} 
+                SET 
+                    {TransactionFields.Comment} = @Comment 
+                WHERE {TransactionFields.TransactionID} = @TransactionID
+            ";
+
+            //Query Params
+            var queryParams = new DynamicParameters();
+            queryParams.Add("Comment", transaction.Comment, DbType.String);
+            queryParams.Add("TransactionID", TransactionID, DbType.Int64);
+
+            //Run Query
+            using var connection = _context.CreateConnection();
+            int affectedRows = await connection.ExecuteAsync(query, queryParams);
+
+            //logs update info if successful
+            if (affectedRows > 0)
             {
-                _logger.Log(LogLevel.Information, $"Deleted {numberDeleted} rows from {Tables.Transaction} for ClientID {clientID} at {DateTime.UtcNow}");
+                _logger.Log(LogLevel.Information, $"Updated Transaction {TransactionID} Comment to {transaction.Comment} at {DateTime.UtcNow} ");
+                return true;
             }
+            else
+            {
+                return false;
+            }
+        }
 
-            // Return the number of rows affected
-            return numberDeleted;
+        public Task<bool> UpdateCommentForTransactionAsync(long TransactionID, UpdateTransactionDTO transaction)
+        {
+            throw new NotImplementedException();
         }
     }
 }

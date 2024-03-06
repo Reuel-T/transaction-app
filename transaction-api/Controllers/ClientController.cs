@@ -94,9 +94,6 @@ namespace transaction_api.Controllers
         /// <param name="client">The data for creating a new client.</param>
         /// <returns>
         /// An action result representing the response. 
-        /// If the client is successfully created, returns a 201 Created response with the newly created client.
-        /// If the ModelState is not valid, returns a 400 Bad Request response with ModelState errors.
-        /// If an exception occurs, returns a 500 Internal Server Error response.
         /// </returns>
         [HttpPost]
         [SwaggerOperation(
@@ -133,12 +130,6 @@ namespace transaction_api.Controllers
         /// <param name="updateClient">The data for updating the client.</param>
         /// <returns>
         /// An action result representing the response. 
-        /// If the client is successfully updated, returns a 201 Created response with the updated client details.
-        /// If the ModelState is not valid, returns a 400 Bad Request response with ModelState errors.
-        /// If the client with the specified ID is not found, returns a 404 Not Found response.
-        /// If the update is not successful, returns a 304 Not Modified response.
-        /// If the provided ID does not match the client ID, returns a 400 Bad Request response.
-        /// If an exception occurs, returns a 500 Internal Server Error response.
         /// </returns>
         [HttpPut("{id}")]
         [SwaggerOperation(

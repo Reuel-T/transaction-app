@@ -28,5 +28,11 @@
             public const string ClientID = "[ClientID]";
         }
 
+        public struct TransactionTypeFields 
+        {
+            public const string TransactionTypeID = "[TransactionTypeId]";
+            public const string TransactionTypeName = "[TransactionTypeName]";
+        }
+
     }
 }
