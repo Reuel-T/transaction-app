@@ -22,6 +22,45 @@ namespace transaction_api.Controllers
             _logger = logger;
         }
 
+        [HttpGet("{TransactionID}", Name = "TransactionByID")]
+        [SwaggerOperation(
+            Summary = "Gets a single transaction by its ID",
+            Tags = new[] { "Transactions"}
+        )]
+        [SwaggerResponse(200, "Found and returned requested Transaction", typeof(TransactionDTO))]
+        [SwaggerResponse(400, "Bad request - ModelState is not valid", typeof(void))]
+        [SwaggerResponse(404, "Can't find transaction with specified ID", typeof(void))]
+        [SwaggerResponse(500, "Internal Server Error", typeof(void))]
+        public async Task<ActionResult<TransactionDTO>> GetTransactionByID(long TransactionID) 
+        {
+            try
+            {
+                //check modelstate
+                if (!ModelState.IsValid) return BadRequest("Invalid Model State");
+
+                //get transaction
+                var transaction = await _TransactionRepository.GetTransactionAsync(TransactionID);
+
+                //if transaction does not exist
+                if (transaction == null) return NotFound();
+
+                //return the transaction
+                return Ok(new TransactionDTO
+                {
+                    TransactionID = transaction.TransactionID,
+                    Amount = transaction.Amount,
+                    Comment = transaction.Comment,
+                    ClientID = transaction.ClientID,
+                    TransactionTypeID = transaction.TransactionTypeID
+                });
+            }
+            catch (Exception ex)
+            {
+                return LogError(ex);
+            }
+        }
+
+
         /// <summary>
         /// Retrieves a collection of transaction details for a client based on the provided client ID.
         /// </summary>
@@ -38,7 +77,8 @@ namespace transaction_api.Controllers
             Tags = new[] { "Transactions" }
         )]
         [SwaggerResponse(200, "Successfully retrieved the list of ClientTransactions", typeof(IEnumerable<ClientTransactionDTO>))]
-        [SwaggerResponse(404, "Client not found", typeof(void))]
+        [SwaggerResponse(400, "Invalid ModelState", typeof(void))]
+        [SwaggerResponse(404, "Transaction not found", typeof(void))]
         [SwaggerResponse(500, "Internal server error", typeof(void))]
         public async Task<ActionResult<IEnumerable<ClientTransactionDTO>>> GetTransactionsForClient(int clientID) 
         {
@@ -53,7 +93,7 @@ namespace transaction_api.Controllers
                 //if client exists
                 if (await _clientRepository.GetClientAsync(clientID) != null)
                 {
-                    var transactions = await _TransactionRepository.GetTransactionsForClient(clientID);
+                    var transactions = await _TransactionRepository.GetTransactionsForClientAsync(clientID);
 
                     return Ok(transactions);
                 }
@@ -69,39 +109,64 @@ namespace transaction_api.Controllers
             }
         }
 
-        [HttpPut("/comment/{id}")]
+        [HttpPost]
+        [SwaggerOperation(
+            Summary = "Creates a Transaction",
+            Description = "Creates a single transaction",
+            Tags = new[] { "Transactions" }
+        )]
+        public async Task<ActionResult> CreateTransaction() 
+        {
+            return Ok();
+        }
 
-        public async Task<ActionResult> UpdateTransactionComment(long id, UpdateTransactionDTO transactionDTO) 
+        [HttpPut("/comment/{id}")]
+        [SwaggerOperation(
+            Summary = "Updates a comment associated with a transaction",
+            Description = "Retrieves a list of a client's from transactions the database.",
+            Tags = new[] { "Transactions" }
+        )]
+        public async Task<ActionResult> UpdateTransactionComment(long id, [FromBody]UpdateTransactionDTO transactionDTO) 
         {
             try
             {
                 //check ModelState
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
+                if (!ModelState.IsValid) return BadRequest(ModelState);
+                
+                //ensure correct transaction is being updated
                 if (id != transactionDTO.TransactionID) return BadRequest("ID Mismatch");
 
+                //check if transaction exists
                 var transaction = await _TransactionRepository.GetTransactionAsync(id);
 
+                //if it does not
                 if (transaction == null) return NotFound();
 
+                //if the update happens
                 if (await _TransactionRepository.UpdateCommentForTransactionAsync(id, transactionDTO))
                 {
                     transaction.Comment = transactionDTO.Comment;
-                    //TODO Create CreateTransactionRoute, Get Single Transaction By ID
-                    return CreatedAtRoute("TransactionByID", new { id }, transaction);
+                    //TODO Create CreateTransactionRoute, 
+                    return CreatedAtRoute("TransactionByID", 
+                        new { TransactionID = id }, 
+                        new TransactionDTO 
+                        { 
+                            TransactionID = transaction.TransactionID,
+                            ClientID = transaction.ClientID,
+                            Amount = transaction.Amount,
+                            Comment = transactionDTO.Comment,
+                            TransactionTypeID = transaction.TransactionTypeID
+                        });
                 }
                 else
                 {
+                    //update did not happen (data did not change)
                     return StatusCode(304, transaction);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                return LogError(ex);
             }
         }
 

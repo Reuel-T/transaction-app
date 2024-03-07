@@ -19,9 +19,21 @@ namespace transaction_api.Repositories
             _logger = logger;
         }
 
-        public Task<Transaction> GetTransactionAsync(long TransactionID)
+        public async Task<Transaction> GetTransactionAsync(long TransactionID)
         {
-            throw new NotImplementedException();
+            // Construct the SQL query for retrieving a client by ID
+            string query = $@"
+                SELECT * FROM {Tables.Transaction}
+                WHERE {TransactionFields.TransactionID} = @Id
+            ";
+
+            // Create a new database connection using the provided context
+            using var connection = _context.CreateConnection();
+            // Execute the query asynchronously and retrieve a single client, or null if not found
+            var transaction = await connection.QuerySingleOrDefaultAsync<Transaction>(query, new { Id = TransactionID });
+
+            // Return the retrieved client
+            return transaction;
         }
 
         /// <summary>
@@ -31,7 +43,7 @@ namespace transaction_api.Repositories
         /// <returns>
         /// A collection of DTOs containing transaction details for the specified client.
         /// </returns>
-        public async Task<IEnumerable<ClientTransactionDTO>> GetTransactionsForClient(int ClientID)
+        public async Task<IEnumerable<ClientTransactionDTO>> GetTransactionsForClientAsync(int ClientID)
         {
             //Join Query, aliases fields and joins 
             //Just three tables with required fields
@@ -57,7 +69,7 @@ namespace transaction_api.Repositories
             return clientTransactions.ToList();
         }
 
-        public async Task<bool> UpdateCommentForTransaction(long TransactionID, UpdateTransactionDTO transaction)
+        public async Task<bool> UpdateCommentForTransactionAsync(long TransactionID, UpdateTransactionDTO transaction)
         {
             //Update Query
             string query = $@"
@@ -86,11 +98,6 @@ namespace transaction_api.Repositories
             {
                 return false;
             }
-        }
-
-        public Task<bool> UpdateCommentForTransactionAsync(long TransactionID, UpdateTransactionDTO transaction)
-        {
-            throw new NotImplementedException();
         }
     }
 }
