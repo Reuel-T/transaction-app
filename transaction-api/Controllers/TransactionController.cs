@@ -150,7 +150,7 @@ namespace transaction_api.Controllers
                 else 
                 {
                     //no transaction returned, update failed
-                    return StatusCode(304, "No Change");
+                    return StatusCode(304);
                 }
             }
             catch (Exception ex)
@@ -200,7 +200,7 @@ namespace transaction_api.Controllers
                 else
                 {
                     //update did not happen (data did not change)
-                    return StatusCode(304, transaction);
+                    return StatusCode(304);
                 }
             }
             catch (Exception ex)
