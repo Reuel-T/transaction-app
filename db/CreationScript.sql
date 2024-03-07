@@ -45,9 +45,6 @@ VALUES
     ('Bruce', 'Wayne', 50000000.00)
 SELECT CAST(SCOPE_IDENTITY() as int)
 
-
-
-
 INSERT INTO [Transaction] (Amount, Comment, TransactionTypeID, ClientID)
 VALUES 
     (1000.00, 'Winnings', 1, 1),
@@ -60,4 +57,85 @@ JOIN [Transaction] T ON C.ClientID = T.ClientID
 JOIN [TransactionType] TT ON T.TransactionTypeID = TT.TransactionTypeID
 
 
+CREATE PROCEDURE SPCreateTransaction
+	@Amount DECIMAL(18,2),
+	@Comment NVARCHAR(100),
+	@TransactionTypeID SMALLINT,
+	@ClientID INT
+AS
+BEGIN
+	SET NOCOUNT ON;
+	BEGIN TRY
+		BEGIN TRANSACTION;
+		--Transaction and Save the new ID
+		INSERT INTO [Transaction] (Amount, Comment, TransactionTypeID, ClientID)
+		VALUES (@Amount, @Comment, @TransactionTypeID, @ClientID);
 
+		DECLARE @NewTransactionID BIGINT;
+		SET @NewTransactionID = SCOPE_IDENTITY();
+
+		--Update the Client's balance
+		UPDATE Client
+		SET ClientBalance = ClientBalance + @Amount
+		WHERE ClientID = @ClientID;
+
+		--commit transaction
+		COMMIT;
+
+		SELECT @NewTransactionID
+	END TRY
+	BEGIN CATCH
+		--rollback if error happens
+		ROLLBACK;
+		--Throw to client?
+		THROW;
+	END CATCH
+	SET NOCOUNT OFF;
+END
+
+EXEC SPCreateTransaction
+	@Amount = 7000,
+	@Comment = 'Winnings',
+	@TransactionTypeID = 1,
+	@ClientID = 16
+
+
+CREATE PROCEDURE SPDeleteClientAndTransactions
+	@Id INT
+AS
+BEGIN
+	SET NOCOUNT ON;
+	BEGIN TRY
+		BEGIN TRANSACTION;
+			--First Delete Transactions for client
+			DELETE FROM [Transaction]
+			WHERE ClientID = @Id;
+
+			--save the number of transactions removed
+			DECLARE @TransactionRowsAffected INT;
+			SET @TransactionRowsAffected = @@ROWCOUNT;
+
+			--Delete the Client
+			DELETE FROM Client
+			WHERE ClientID = @Id;
+
+			--Save the number of clients removed
+			DECLARE @ClientRowsAffected INT;
+			SET @ClientRowsAffected = @@ROWCOUNT;
+
+			--commit
+			COMMIT;
+			--return the values
+			SELECT @ClientRowsAffected AS ClientsRemoved, @TransactionRowsAffected AS TransactionsRemoved
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		THROW;
+	END CATCH
+	SET NOCOUNT OFF;
+END
+
+EXEC SPDeleteClientAndTransactions @Id = 16;
+EXEC SPDeleteClientAndTransactions @Id = 9;
+
+DROP PROCEDURE SPDeleteClientAndTransactions

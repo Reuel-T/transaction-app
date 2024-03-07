@@ -22,49 +22,19 @@ namespace transaction_api.Repositories
         {
             //opens connection and begins transaction
             using var connection = _context.CreateConnection();
-            connection.Open();
-            using var transaction = connection.BeginTransaction();
             try
             {
-                //create transaction query
-                string transactionQuery = $@"
-                INSERT INTO {Tables.Transaction} (
-                    {TransactionFields.Amount}, 
-                    {TransactionFields.Comment},
-                    {TransactionFields.TransactionTypeID},
-                    {TransactionFields.ClientID} 
-                )
-                VALUES (@Amount, @Comment, @TransactionTypeID, @ClientID);
-                SELECT CAST(SCOPE_IDENTITY() AS BIGINT);
-                ";
+                //query params
+                var parameters = new DynamicParameters();
+                parameters.Add("Amount", transactionDTO.Amount, DbType.Decimal);
+                parameters.Add("Comment", transactionDTO.Comment, DbType.String);
+                parameters.Add("TransactionTypeID", transactionDTO.TransactionTypeID, DbType.Int64);
+                parameters.Add("ClientID", transactionDTO.ClientID, DbType.Int64);
 
-                //params for adding new transaction
-                var transactionQueryParams = new DynamicParameters();
-                transactionQueryParams.Add("Amount", transactionDTO.Amount, DbType.Decimal);
-                transactionQueryParams.Add("Comment", transactionDTO.Comment, DbType.String);
-                transactionQueryParams.Add("TransactionTypeID", transactionDTO.TransactionTypeID, DbType.Int64);
-                transactionQueryParams.Add("ClientID", transactionDTO.ClientID, DbType.Int64);
-
-                //getting ID of new transaction
-                long newTransactionID = await connection.ExecuteScalarAsync<long>(transactionQuery, transactionQueryParams, transaction);
-
-                //updating the client's balance
-                string updateClientQuery = $@"
-                UPDATE {Tables.Client} 
-                SET {ClientFields.ClientBalance} = {ClientFields.ClientBalance} + @Amount 
-                WHERE {ClientFields.ClientID} = @ClientID;
-                ";
-
-                //params for updating client balance
-                var updateBalanceQueryParams = new DynamicParameters();
-                updateBalanceQueryParams.Add("Amount", transactionDTO.Amount, DbType.Decimal);
-                updateBalanceQueryParams.Add("ClientID", transactionDTO.ClientID, DbType.Int64);
-            
-                await connection.ExecuteAsync(updateClientQuery, updateBalanceQueryParams, transaction);
+                long newTransactionID = await connection.QueryFirstAsync<long>(
+                    StoredProcedures.CreateTransaction, parameters, commandType: CommandType.StoredProcedure);
 
                 _logger.Log(LogLevel.Information, $"Created new Transaction {newTransactionID}(ID) and updated balance For Client {transactionDTO.ClientID}(ID) with at {DateTime.UtcNow}.");
-
-                transaction.Commit();
 
                 //return the new transaction
                 return new TransactionDTO
@@ -78,9 +48,7 @@ namespace transaction_api.Repositories
             }
             catch (Exception)
             {
-                _logger.Log(LogLevel.Error, $"Unable to Create Transaction Client. Rolling Back Transaction)");
-                transaction.Rollback();
-                connection.Close();
+                _logger.Log(LogLevel.Error, $"Unable to Create Transaction. Rolling Back Transaction. No Changes have been made)");
                 throw;
             }
         }

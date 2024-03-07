@@ -34,5 +34,11 @@
             public const string TransactionTypeName = "[TransactionTypeName]";
         }
 
+        public struct StoredProcedures 
+        {
+            public const string CreateTransaction = "SPCreateTransaction";
+            public const string DeleteClient = "SPDeleteClientAndTransactions";
+        }
+
     }
 }
