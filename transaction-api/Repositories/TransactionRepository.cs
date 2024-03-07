@@ -2,10 +2,8 @@
 using transaction_api.Context;
 using transaction_api.DTOs;
 using transaction_api.Interfaces;
-using transaction_api.Models;
 using System.Data;
 using static transaction_api.Constants.Constants;
-using System.Transactions;
 
 namespace transaction_api.Repositories
 {
@@ -111,28 +109,24 @@ namespace transaction_api.Repositories
         /// <returns>
         /// A collection of DTOs containing transaction details for the specified client.
         /// </returns>
-        public async Task<IEnumerable<ClientTransactionDTO>> GetTransactionsForClientAsync(int ClientID)
+        public async Task<IEnumerable<TransactionDTO>> GetTransactionsForClientAsync(int ClientID)
         {
             //Join Query, aliases fields and joins 
             //Just three tables with required fields
 
             string query = $@"
                 SELECT 
-                    T.{TransactionFields.TransactionID}, 
-                    C.{ClientFields.Name}, 
-                    C.{ClientFields.Surname}, 
-                    T.{TransactionFields.Amount}, 
-                    T.{TransactionFields.Comment}, 
-                    TT.{TransactionTypeFields.TransactionTypeName}, 
-                    TT.{TransactionTypeFields.TransactionTypeID} 
-                FROM {Tables.Client} C 
-                JOIN {Tables.Transaction} T ON C.{ClientFields.ClientID} = T.{TransactionFields.ClientID} 
-                JOIN {Tables.TransactionType} TT ON T.{TransactionFields.TransactionTypeID} = TT.{TransactionTypeFields.TransactionTypeID} 
-                WHERE T.{TransactionFields.ClientID} = @ClientID
+                    {TransactionFields.TransactionID}, 
+                    {TransactionFields.Amount}, 
+                    {TransactionFields.Comment}, 
+                    {TransactionFields.ClientID}, 
+                    {TransactionFields.TransactionTypeID}
+                FROM {Tables.Transaction} 
+                WHERE {TransactionFields.ClientID} = @ClientID
             ";
 
             using var connection = _context.CreateConnection();
-            var clientTransactions = await connection.QueryAsync<ClientTransactionDTO>(query, new { ClientID });
+            var clientTransactions = await connection.QueryAsync<TransactionDTO>(query, new { ClientID });
 
             return clientTransactions.ToList();
         }

@@ -34,5 +34,16 @@ namespace transaction_api.Repositories
 
             return transactionType;
         }
+
+        public async Task<IEnumerable<TransactionType>> GetTransactionTypesAsync()
+        {
+            string query = $"SELECT * FROM {Tables.TransactionType}";
+
+            using var connection = _context.CreateConnection();
+
+            var transactionTypes = await connection.QueryAsync<TransactionType>(query);
+
+            return transactionTypes.ToList();
+        }
     }
 }

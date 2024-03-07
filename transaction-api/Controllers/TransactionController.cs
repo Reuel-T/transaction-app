@@ -75,7 +75,7 @@ namespace transaction_api.Controllers
         /// If the client does not exist, returns NotFound; if the model state is invalid, returns BadRequest.
         /// </returns>
         [HttpGet]
-        [Route("/client/{clientID}")]
+        [Route("client/{clientID}")]
         [SwaggerOperation(
             Summary = "Get a list of transactions for a single client",
             Description = "Retrieves a list of a client's from transactions the database.",
@@ -85,7 +85,7 @@ namespace transaction_api.Controllers
         [SwaggerResponse(400, "Invalid ModelState", typeof(void))]
         [SwaggerResponse(404, "Transaction not found", typeof(void))]
         [SwaggerResponse(500, "Internal server error", typeof(void))]
-        public async Task<ActionResult<IEnumerable<ClientTransactionDTO>>> GetTransactionsForClient(int clientID) 
+        public async Task<ActionResult<IEnumerable<TransactionDTO>>> GetTransactionsForClient(int clientID) 
         {
             try
             {
