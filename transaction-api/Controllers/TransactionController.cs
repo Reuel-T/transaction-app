@@ -12,13 +12,18 @@ namespace transaction_api.Controllers
     public class TransactionController : ControllerBase
     {
         private readonly IClientRepository _clientRepository;
-        private readonly ITransactionRepository _TransactionRepository;
+        private readonly ITransactionRepository _transactionRepository;
+        private readonly ITransactionTypeRepository _transactionTypeRepository;
         private readonly ILogger<TransactionController> _logger;
 
-        public TransactionController(IClientRepository clientRepository, ITransactionRepository transactionRepository, ILogger<TransactionController> logger)
+        public TransactionController(IClientRepository clientRepository,
+                                     ITransactionRepository transactionRepository,
+                                     ITransactionTypeRepository transactionTypeRepository,
+                                     ILogger<TransactionController> logger)
         {
             _clientRepository = clientRepository;
-            _TransactionRepository = transactionRepository;
+            _transactionRepository = transactionRepository;
+            _transactionTypeRepository = transactionTypeRepository;
             _logger = logger;
         }
 
@@ -39,7 +44,7 @@ namespace transaction_api.Controllers
                 if (!ModelState.IsValid) return BadRequest("Invalid Model State");
 
                 //get transaction
-                var transaction = await _TransactionRepository.GetTransactionAsync(TransactionID);
+                var transaction = await _transactionRepository.GetTransactionAsync(TransactionID);
 
                 //if transaction does not exist
                 if (transaction == null) return NotFound();
@@ -93,7 +98,7 @@ namespace transaction_api.Controllers
                 //if client exists
                 if (await _clientRepository.GetClientAsync(clientID) != null)
                 {
-                    var transactions = await _TransactionRepository.GetTransactionsForClientAsync(clientID);
+                    var transactions = await _transactionRepository.GetTransactionsForClientAsync(clientID);
 
                     return Ok(transactions);
                 }
@@ -112,12 +117,46 @@ namespace transaction_api.Controllers
         [HttpPost]
         [SwaggerOperation(
             Summary = "Creates a Transaction",
-            Description = "Creates a single transaction",
+            Description = "Creates a single transaction for a client",
             Tags = new[] { "Transactions" }
         )]
-        public async Task<ActionResult> CreateTransaction() 
+        public async Task<ActionResult> CreateTransaction([FromBody]CreateTransactionDTO createTransaction) 
         {
-            return Ok();
+            try
+            {
+                //check modelstate
+                if (!ModelState.IsValid) return BadRequest("Invalid Model");
+
+                //check if transactionType exists
+                if (await _transactionTypeRepository.GetTransactionTypeByIDAsync(createTransaction.TransactionTypeID) == null)
+                {
+                    return NotFound("Transaction Type not found");
+                }
+
+                //check client exists
+                if (await _clientRepository.GetClientAsync(createTransaction.ClientID) == null) 
+                {
+                    return NotFound("Client Not Found");
+                }
+
+                //create the transaction
+                var newTransaction = await _transactionRepository.CreateTransactionAsync(createTransaction);
+
+                //if transaction successfully created
+                if (newTransaction != null)
+                {
+                    return CreatedAtRoute("TransactionByID", new { newTransaction.TransactionID }, newTransaction);
+                }
+                else 
+                {
+                    //no transaction returned, update failed
+                    return StatusCode(304, "No Change");
+                }
+            }
+            catch (Exception ex)
+            {
+                return LogError(ex);
+            }
         }
 
         [HttpPut("/comment/{id}")]
@@ -137,13 +176,13 @@ namespace transaction_api.Controllers
                 if (id != transactionDTO.TransactionID) return BadRequest("ID Mismatch");
 
                 //check if transaction exists
-                var transaction = await _TransactionRepository.GetTransactionAsync(id);
+                var transaction = await _transactionRepository.GetTransactionAsync(id);
 
                 //if it does not
                 if (transaction == null) return NotFound();
 
                 //if the update happens
-                if (await _TransactionRepository.UpdateCommentForTransactionAsync(id, transactionDTO))
+                if (await _transactionRepository.UpdateCommentForTransactionAsync(id, transactionDTO))
                 {
                     transaction.Comment = transactionDTO.Comment;
                     //TODO Create CreateTransactionRoute, 

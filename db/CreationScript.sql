@@ -26,6 +26,11 @@ SELECT * FROM TransactionType
 SELECT * FROM Client
 SELECT * FROM [Transaction]
 
+UPDATE Client
+    SET ClientBalance = ClientBalance + 300
+    WHERE ClientID = 16;
+SELECT ClientBal
+
 INSERT INTO TransactionType (TransactionTypeName) VALUES ('Debit');
 INSERT INTO TransactionType (TransactionTypeName) VALUES ('Credit');
 
@@ -34,6 +39,12 @@ VALUES
     ('Peter', 'Parker', 1000.00),
     ('Tony', 'Stark', 800000),
     ('Bruce', 'Banner', 254111);
+
+INSERT INTO Client (Name, Surname, ClientBalance)
+VALUES 
+    ('Bruce', 'Wayne', 50000000.00)
+SELECT CAST(SCOPE_IDENTITY() as int)
+
 
 
 
@@ -44,8 +55,9 @@ VALUES
     (-9000, 'Loss', 2, 2);
 
 
-SELECT T.TransactionID AS 'Transaction ID', [Name], Surname, Amount FROM Client C
+SELECT T.TransactionID, C.[Name], C.[Surname], T.[Amount], TT.[TransactionTypeName] FROM Client C
 JOIN [Transaction] T ON C.ClientID = T.ClientID
+JOIN [TransactionType] TT ON T.TransactionTypeID = TT.TransactionTypeID
 
 
 

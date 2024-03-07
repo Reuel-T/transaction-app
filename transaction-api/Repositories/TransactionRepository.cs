@@ -5,6 +5,7 @@ using transaction_api.Interfaces;
 using transaction_api.Models;
 using System.Data;
 using static transaction_api.Constants.Constants;
+using System.Transactions;
 
 namespace transaction_api.Repositories
 {
@@ -19,7 +20,74 @@ namespace transaction_api.Repositories
             _logger = logger;
         }
 
-        public async Task<Transaction> GetTransactionAsync(long TransactionID)
+        public async Task<TransactionDTO> CreateTransactionAsync(CreateTransactionDTO transactionDTO)
+        {
+            //opens connection and begins transaction
+            using var connection = _context.CreateConnection();
+            connection.Open();
+            using var transaction = connection.BeginTransaction();
+            try
+            {
+                //create transaction query
+                string transactionQuery = $@"
+                INSERT INTO {Tables.Transaction} (
+                    {TransactionFields.Amount}, 
+                    {TransactionFields.Comment},
+                    {TransactionFields.TransactionTypeID},
+                    {TransactionFields.ClientID} 
+                )
+                VALUES (@Amount, @Comment, @TransactionTypeID, @ClientID);
+                SELECT CAST(SCOPE_IDENTITY() AS BIGINT);
+                ";
+
+                //params for adding new transaction
+                var transactionQueryParams = new DynamicParameters();
+                transactionQueryParams.Add("Amount", transactionDTO.Amount, DbType.Decimal);
+                transactionQueryParams.Add("Comment", transactionDTO.Comment, DbType.String);
+                transactionQueryParams.Add("TransactionTypeID", transactionDTO.TransactionTypeID, DbType.Int64);
+                transactionQueryParams.Add("ClientID", transactionDTO.ClientID, DbType.Int64);
+
+                //getting ID of new transaction
+                long newTransactionID = await connection.ExecuteScalarAsync<long>(transactionQuery, transactionQueryParams, transaction);
+
+                //updating the client's balance
+                string updateClientQuery = $@"
+                UPDATE {Tables.Client} 
+                SET {ClientFields.ClientBalance} = {ClientFields.ClientBalance} + @Amount 
+                WHERE {ClientFields.ClientID} = @ClientID;
+                ";
+
+                //params for updating client balance
+                var updateBalanceQueryParams = new DynamicParameters();
+                updateBalanceQueryParams.Add("Amount", transactionDTO.Amount, DbType.Decimal);
+                updateBalanceQueryParams.Add("ClientID", transactionDTO.ClientID, DbType.Int64);
+            
+                await connection.ExecuteAsync(updateClientQuery, updateBalanceQueryParams, transaction);
+
+                _logger.Log(LogLevel.Information, $"Created new Transaction {newTransactionID}(ID) and updated balance For Client {transactionDTO.ClientID}(ID) with at {DateTime.UtcNow}.");
+
+                transaction.Commit();
+
+                //return the new transaction
+                return new TransactionDTO
+                {
+                    TransactionID = newTransactionID,
+                    Amount = transactionDTO.Amount,
+                    ClientID = transactionDTO.ClientID,
+                    Comment = transactionDTO.Comment,
+                    TransactionTypeID = transactionDTO.TransactionTypeID,
+                };
+            }
+            catch (Exception)
+            {
+                _logger.Log(LogLevel.Error, $"Unable to Create Transaction Client. Rolling Back Transaction)");
+                transaction.Rollback();
+                connection.Close();
+                throw;
+            }
+        }
+
+        public async Task<Models.Transaction> GetTransactionAsync(long TransactionID)
         {
             // Construct the SQL query for retrieving a client by ID
             string query = $@"
@@ -30,7 +98,7 @@ namespace transaction_api.Repositories
             // Create a new database connection using the provided context
             using var connection = _context.CreateConnection();
             // Execute the query asynchronously and retrieve a single client, or null if not found
-            var transaction = await connection.QuerySingleOrDefaultAsync<Transaction>(query, new { Id = TransactionID });
+            var transaction = await connection.QuerySingleOrDefaultAsync<Models.Transaction>(query, new { Id = TransactionID });
 
             // Return the retrieved client
             return transaction;
