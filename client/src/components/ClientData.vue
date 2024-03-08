@@ -23,13 +23,13 @@
 </template>
 
 <script setup lang="ts">
-  import type { Client } from '@/models/Client'
+  import type { ClientDTO } from '@/models/ClientDTO'
   import type { PropType } from 'vue'
 
   const props = defineProps({
     client: {
       required: true,
-      type: Object as PropType<Client>
+      type: Object as PropType<ClientDTO>
     },
     showViewLink: {
       required: false,

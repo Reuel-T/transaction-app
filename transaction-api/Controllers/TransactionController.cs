@@ -120,6 +120,9 @@ namespace transaction_api.Controllers
             Description = "Creates a single transaction for a client",
             Tags = new[] { "Transactions" }
         )]
+        [SwaggerResponse(201, "Transaction created successfully", typeof(TransactionDTO))]
+        [SwaggerResponse(400, "Bad request - ModelState is not valid", typeof(void))]
+        [SwaggerResponse(500, "Internal server error", typeof(void))]
         public async Task<ActionResult> CreateTransaction([FromBody]CreateTransactionDTO createTransaction) 
         {
             try
@@ -159,12 +162,16 @@ namespace transaction_api.Controllers
             }
         }
 
-        [HttpPut("/comment/{id}")]
+        [HttpPut]
+        [Route("comment/{id}")]
         [SwaggerOperation(
             Summary = "Updates a comment associated with a transaction",
             Description = "Retrieves a list of a client's from transactions the database.",
             Tags = new[] { "Transactions" }
         )]
+        [SwaggerResponse(201, "Transaction created successfully", typeof(TransactionDTO))]
+        [SwaggerResponse(400, "Bad request - ModelState is not valid", typeof(void))]
+        [SwaggerResponse(500, "Internal server error", typeof(void))]
         public async Task<ActionResult> UpdateTransactionComment(long id, [FromBody]UpdateTransactionDTO transactionDTO) 
         {
             try

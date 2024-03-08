@@ -5,7 +5,7 @@
         v-for="client in sortedClients"
         :key="client.clientID"
       >
-        <ClientData :client="client" />
+        <ClientData :client="client" :show-view-link="true" />
       </li>
     </ul>
   </div>
@@ -14,14 +14,14 @@
 <script setup lang="ts">
   import { computed, type PropType } from 'vue'
   import ClientData from './ClientData.vue'
-  import type { Client } from '@/models/Client'
+  import type { ClientDTO } from '@/models/ClientDTO'
   import type { ClientSortType } from '@/types/ClientSortTypes'
   import type { SortOrder } from '@/types/SortOrder'
 
   const props = defineProps({
     clients: {
       required: true,
-      type: Array as PropType<Client[]>
+      type: Array as PropType<ClientDTO[]>
     },
     sortField: {
       default: 'none',
