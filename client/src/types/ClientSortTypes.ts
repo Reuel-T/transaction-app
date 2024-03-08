@@ -1,1 +1,1 @@
-export type ClientSortType = 'none' | 'name' | 'surname' | 'clientBalance';
+export type ClientSortType = 'none' | 'name' | 'surname' | 'clientBalance'
