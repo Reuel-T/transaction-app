@@ -36,4 +36,3 @@
     }
   }
 </style>
-@/models/ClientTransactionDTO

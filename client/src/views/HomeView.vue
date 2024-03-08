@@ -26,7 +26,7 @@
 
 <script setup lang="ts">
   import ClientList from '@/components/ClientList.vue'
-  import { useClients } from '@/shared/useClients'
+  import { useClients } from '@/shared/useGetClients'
   import type { ClientSortType } from '@/types/ClientSortTypes'
   import type { SortOrder } from '@/types/SortOrder'
   import { ref } from 'vue'
@@ -73,3 +73,4 @@
 </script>
 
 <style scoped lang="scss"></style>
+@/shared/useGetClients

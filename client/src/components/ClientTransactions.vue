@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1>Transactions</h1>
     <h3 v-if="transactions.length < 1">No Transactions for this client</h3>
     <div v-else>
       <ClientTransaction
