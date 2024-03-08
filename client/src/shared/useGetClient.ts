@@ -1,11 +1,11 @@
 import { API_BASEURL, API_ROUTES } from '@/constants/AppConstants'
-import type { Client } from '@/models/Client'
+import type { ClientDTO } from '@/models/ClientDTO'
 import { ref } from 'vue'
 
 const isError = ref<boolean>(false)
 const isLoading = ref<boolean>(false)
 const foundClient = ref<null | boolean>(null)
-const client = ref<Client>()
+const client = ref<ClientDTO>()
 
 export function useGetClient(clientID: number) {
   window.addEventListener('focus', () => {})
@@ -17,7 +17,7 @@ export function useGetClient(clientID: number) {
 
       if (res.ok) {
         //request successful
-        const fetchedData: Client = await res.json()
+        const fetchedData: ClientDTO = await res.json()
         client.value = fetchedData
         foundClient.value = true
         isLoading.value = false

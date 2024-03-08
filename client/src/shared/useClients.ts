@@ -1,8 +1,8 @@
 import { API_BASEURL, API_ROUTES } from '@/constants/AppConstants'
-import type { Client } from '@/models/Client'
+import type { ClientDTO } from '@/models/ClientDTO'
 import { ref } from 'vue'
 
-const data = ref<Client[]>([])
+const data = ref<ClientDTO[]>([])
 const isLoading = ref<boolean>(false)
 const isError = ref<boolean>(false)
 
@@ -22,7 +22,7 @@ export function useClients() {
         throw new Error('Failed to Fetch Data')
       }
 
-      const fetchedData: Client[] = await res.json()
+      const fetchedData: ClientDTO[] = await res.json()
       data.value = fetchedData
       console.log(fetchedData)
     } catch (error) {

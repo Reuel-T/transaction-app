@@ -1,11 +1,11 @@
 import { API_BASEURL, API_ROUTES } from '@/constants/AppConstants'
-import type { ClientTransaction } from '@/models/ClientTransaction'
+import type { ClientTransactionDTO } from '@/models/ClientTransactionDTO'
 import { ref } from 'vue'
 
 const isError = ref<boolean>(false)
 const isLoading = ref<boolean>(false)
 const is404 = ref<null | boolean>(null)
-const transactions = ref<ClientTransaction[]>()
+const transactions = ref<ClientTransactionDTO[]>()
 
 export function useGetClientTransactions(clientID: number) {
   window.addEventListener('focus', () => {
@@ -19,7 +19,7 @@ export function useGetClientTransactions(clientID: number) {
 
       if (res.ok) {
         //request successful
-        const fetchedData: ClientTransaction[] = await res.json()
+        const fetchedData: ClientTransactionDTO[] = await res.json()
         transactions.value = fetchedData
         is404.value = false
         isLoading.value = false

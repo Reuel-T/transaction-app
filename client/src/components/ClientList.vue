@@ -55,3 +55,4 @@
     list-style-type: none;
   }
 </style>
+@/models/ClientDTO
