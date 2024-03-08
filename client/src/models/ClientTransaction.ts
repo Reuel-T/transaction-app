@@ -1,4 +1,4 @@
-export interface ClientTransactionDTO {
+export interface ClientTransaction {
   TransactionID: number
   TransactionTypeName: string
   Comment: string
