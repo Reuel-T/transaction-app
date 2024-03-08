@@ -85,7 +85,7 @@ namespace transaction_api.Controllers
         [SwaggerResponse(400, "Invalid ModelState", typeof(void))]
         [SwaggerResponse(404, "Transaction not found", typeof(void))]
         [SwaggerResponse(500, "Internal server error", typeof(void))]
-        public async Task<ActionResult<IEnumerable<TransactionDTO>>> GetTransactionsForClient(int clientID) 
+        public async Task<ActionResult<IEnumerable<ClientTransactionDTO>>> GetTransactionsForClient(int clientID) 
         {
             try
             {

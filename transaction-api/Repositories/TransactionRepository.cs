@@ -77,24 +77,17 @@ namespace transaction_api.Repositories
         /// <returns>
         /// A collection of DTOs containing transaction details for the specified client.
         /// </returns>
-        public async Task<IEnumerable<TransactionDTO>> GetTransactionsForClientAsync(int ClientID)
+        public async Task<IEnumerable<ClientTransactionDTO>> GetTransactionsForClientAsync(int ClientID)
         {
-            //Join Query, aliases fields and joins 
-            //Just three tables with required fields
+            var parameters = new DynamicParameters();
+            parameters.Add("ClientID", ClientID, DbType.Int64);
 
-            string query = $@"
-                SELECT 
-                    {TransactionFields.TransactionID}, 
-                    {TransactionFields.Amount}, 
-                    {TransactionFields.Comment}, 
-                    {TransactionFields.ClientID}, 
-                    {TransactionFields.TransactionTypeID}
-                FROM {Tables.Transaction} 
-                WHERE {TransactionFields.ClientID} = @ClientID
-            ";
 
             using var connection = _context.CreateConnection();
-            var clientTransactions = await connection.QueryAsync<TransactionDTO>(query, new { ClientID });
+            var clientTransactions = await connection.QueryAsync<ClientTransactionDTO>(
+                StoredProcedures.GetClientTransactions,
+                parameters,
+                commandType: CommandType.StoredProcedure);
 
             return clientTransactions.ToList();
         }

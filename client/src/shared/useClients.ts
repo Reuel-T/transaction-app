@@ -6,8 +6,10 @@ const data = ref<Client[]>([]);
 const isLoading = ref<boolean>(false);
 const isError = ref<boolean>(false);
 
-
 export function useClients() {
+  window.addEventListener("focus", () => {
+    fetchClients();
+  })
   fetchClients();
   async function fetchClients() {
     try {

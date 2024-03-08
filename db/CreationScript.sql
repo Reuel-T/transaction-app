@@ -56,6 +56,11 @@ SELECT T.TransactionID, C.[Name], C.[Surname], T.[Amount], TT.[TransactionTypeNa
 JOIN [Transaction] T ON C.ClientID = T.ClientID
 JOIN [TransactionType] TT ON T.TransactionTypeID = TT.TransactionTypeID
 
+SELECT T.[TransactionID], T.[Amount], TT.[TransactionTypeName], T.[ClientID] FROM [Transaction] T
+JOIN [TransactionType] TT ON T.TransactionTypeID = TT.TransactionTypeID
+WHERE T.[ClientID] = 3
+ 
+
 
 CREATE PROCEDURE SPCreateTransaction
 	@Amount DECIMAL(18,2),
@@ -139,3 +144,17 @@ EXEC SPDeleteClientAndTransactions @Id = 16;
 EXEC SPDeleteClientAndTransactions @Id = 9;
 
 DROP PROCEDURE SPDeleteClientAndTransactions
+
+CREATE PROCEDURE SPGetTransactionsForClient
+	@ClientID INT
+AS
+BEGIN
+	SELECT T.[TransactionID], T.[Amount], TT.[TransactionTypeName], T.[ClientID], T.[Comment]
+    FROM [Transaction] T
+    JOIN [TransactionType] TT ON T.TransactionTypeID = TT.TransactionTypeID
+    WHERE T.[ClientID] = @ClientID;
+END		
+
+EXEC SPGetTransactionsForClient @ClientID = 3
+
+DROP PROCEDURE SPGetTransactionsForClient

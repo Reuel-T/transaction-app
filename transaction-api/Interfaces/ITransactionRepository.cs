@@ -7,7 +7,7 @@ namespace transaction_api.Interfaces
     {
         public Task<TransactionDTO> CreateTransactionAsync(CreateTransactionDTO transactionDTO);
         public Task<Transaction> GetTransactionAsync(long TransactionID);
-        public Task<IEnumerable<TransactionDTO>> GetTransactionsForClientAsync(int ClientID);
+        public Task<IEnumerable<ClientTransactionDTO>> GetTransactionsForClientAsync(int ClientID);
         public Task<bool> UpdateCommentForTransactionAsync(long TransactionID, UpdateTransactionDTO transaction);
     }
 }

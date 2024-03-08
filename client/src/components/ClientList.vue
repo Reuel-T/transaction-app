@@ -2,8 +2,7 @@
   <div>
     <ul>
       <li v-for="client in sortedClients" :key="client.clientID">
-        <p>Client: {{ client.name }} {{ client.surname }}</p>
-        <p>Balance: {{ client.clientBalance.toLocaleString('en-ZA', { style: 'currency', currency: 'ZAR' }) }}</p>
+        <ClientData :client="client" />
       </li>
     </ul>
   </div>
@@ -11,6 +10,7 @@
 
 <script setup lang="ts">
 import { computed, type PropType } from 'vue';
+import ClientData from './ClientData.vue';
 import type { Client } from '@/models/Client';
 import type { ClientSortType } from '@/types/ClientSortTypes';
 import type { SortOrder } from '@/types/SortOrder';
@@ -50,5 +50,7 @@ const sortedClients = computed(() => {
 </script>
 
 <style scoped lang="scss">
-
+  ul{
+    list-style-type: none;
+  }
 </style>
