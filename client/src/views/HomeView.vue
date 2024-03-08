@@ -9,7 +9,7 @@
     </div>
     <div v-if="!isLoading && !isError">
       <button @click="sortFieldClicked">{{ sortField }}</button>
-      <button @click="sortOrderClicked">{{ sortOrder }}</button>
+      <button v-if="sortOrder !== 'none'" @click="sortOrderClicked">{{ sortOrder }}</button>
       <ClientList :clients="data" :sort-field="sortField" :sort-order="sortOrder" />
     </div>
   </div>
@@ -31,15 +31,19 @@ function sortFieldClicked() {
   switch (sortField.value) {
     case 'none':
       sortField.value = 'name';
+      sortOrder.value = 'asc';
       break;
     case 'name':
       sortField.value = 'surname';
+      sortOrder.value = 'asc';
       break;
     case 'surname':
       sortField.value = 'clientBalance';
+      sortOrder.value = 'desc'
       break;
     default:
       sortField.value = 'none';
+      sortOrder.value = 'none';
       break;
   }
 }
@@ -53,7 +57,7 @@ function sortOrderClicked() {
       sortOrder.value = 'desc';
       break;
     default:
-      sortOrder.value = 'none';
+      sortOrder.value = 'asc';
       break;
   }
 }
