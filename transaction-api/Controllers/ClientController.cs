@@ -21,7 +21,6 @@ namespace transaction_api.Controllers
         }
 
         [HttpGet]
-        [Route("api/clients")]
         [SwaggerOperation(
             Summary = "Get a list of clients",
             Description = "Retrieves a list of clients from the database.",
