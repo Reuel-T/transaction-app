@@ -5,7 +5,10 @@
         v-for="client in sortedClients"
         :key="client.clientID"
       >
-        <ClientData :client="client" :show-view-link="true" />
+        <ClientData
+          :client="client"
+          :show-view-link="true"
+        />
       </li>
     </ul>
   </div>

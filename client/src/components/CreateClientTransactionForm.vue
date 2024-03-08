@@ -54,7 +54,7 @@
   //post data - function to call when ready to post data
   const { isPosting, postData } = usePostClientTransaction({
     onSuccess: () => {
-      emit('post-success', { ...formData });
+      emit('post-success', { ...formData })
       //reset the form
       formData.amount = 0
       formData.comment = ''
