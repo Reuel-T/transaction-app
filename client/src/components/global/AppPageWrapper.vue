@@ -16,18 +16,13 @@
     height: 85vh;
     width: 85vw;
     max-width: 900px;
+    padding: 0rem 2rem;
 
     h1 {
       margin: 0;
       padding: 0;
     }
 
-    overflow: hidden;
-  }
-
-  h1.title {
-    color: #cecece;
-    letter-spacing: 0.075em;
-    text-align: center;
+    overflow-y: hidden;
   }
 </style>

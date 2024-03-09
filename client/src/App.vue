@@ -18,7 +18,6 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border: 2px solid yellow;
     flex-grow: 1;
   }
 </style>

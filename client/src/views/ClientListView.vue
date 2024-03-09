@@ -1,5 +1,5 @@
 <template>
-  <div class="page-card">
+  <AppPageWrapper>
     <h1 class="title">Clients</h1>
     <div v-if="isLoading">
       <p>Loading...</p>
@@ -13,10 +13,11 @@
     >
       <ClientList :clients="data" />
     </div>
-  </div>
+  </AppPageWrapper>
 </template>
 
 <script setup lang="ts">
+  import AppPageWrapper from '@/components/global/AppPageWrapper.vue';
   import ClientList from '@/components/ClientList.vue'
   import { useClients } from '@/shared/useGetClients'
 

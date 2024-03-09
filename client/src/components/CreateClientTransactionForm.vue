@@ -32,7 +32,7 @@
     </div>
     <!-- Transaction Type -->
     <div class="form-group">
-      <label for="transactionType">Transaction Type</label>
+      <label for="transactionType">Type</label>
       <div class="transaction-type-wrapper"></div>
       <select
         id="transactionType"

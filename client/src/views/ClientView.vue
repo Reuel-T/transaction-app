@@ -1,43 +1,48 @@
 <template>
-  <div class="page-card">
-    <h1 class="title">Client Transactions</h1>
-    
-    <div v-if="foundClient === false">
-      <h3>Client Not Found {{ $route.params.id }}</h3>
-    </div>
-    
-    <div v-else-if="!isClientError">
-      <ClientInfoCard :client="client" :is-loading="isClientLoading"/>
-      <CreateClientTransactionForm
-        @post-success="
-          (data : ClientTransactionDTO) => {
-            refetchClient()
-            console.log(data);
-            if (transactions) {
-              transactions.push(data);  
+  <AppPageWrapper>
+    <div class="container">
+      <h1 class="title">Client Transactions</h1>
+
+      <div class="container" v-if="foundClient && !isClientError">
+        <!-- Client Info -->
+        <ClientInfoCard :client="client" :is-loading="isClientLoading"/>
+        
+        <!-- Create Transaction Form -->
+        <CreateClientTransactionForm
+          @post-success="
+            (data : ClientTransactionDTO) => {
+              refetchClient()
+              console.log(data);
+              if (transactions) {
+                transactions.push(data);  
+              }
             }
-          }
-        "
-        :client-id="Number($route.params.id)"
-      />
-      <div class="transaction-list-wrapper">
-        <ClientTransactions
-          v-if="!isTransactionsError && !isTransactionsLoading && !transactions404 && transactions"
-          :transactions="transactions"
+          "
+          :client-id="Number($route.params.id)"
         />
+
+        <div class="container">
+          <ClientTransactions
+            v-if="!isTransactionsError && !isTransactionsLoading && !transactions404 && transactions"
+            :transactions="transactions"
+          />
+        </div>
+
       </div>
+
     </div>
-  </div>
+  </AppPageWrapper>
 </template>
 
 <script setup lang="ts">
+  import AppPageWrapper from '@/components/global/AppPageWrapper.vue'
   import ClientInfoCard from '@/components/page/client-transaction/ClientInfoCard.vue'
   import ClientTransactions from '@/components/ClientTransactions.vue'
   import CreateClientTransactionForm from '@/components/CreateClientTransactionForm.vue'
   import { useGetClient } from '@/shared/useGetClient'
   import { useGetClientTransactions } from '@/shared/useGetClientTransactions'
   import { useRoute } from 'vue-router'
-import type { ClientTransactionDTO } from '@/models/ClientTransactionDTO'
+  import type { ClientTransactionDTO } from '@/models/ClientTransactionDTO'
 
   const route = useRoute()
   const {
@@ -56,9 +61,11 @@ import type { ClientTransactionDTO } from '@/models/ClientTransactionDTO'
   } = useGetClientTransactions(Number(route.params.id))
 </script>
 
-<style scoped>
-  .transaction-list-wrapper{
+<style lang="scss" scoped>
+  .container{
     height: 100%;
+    display: flex;
+    flex-direction: column;
     border: 2px solid aqua;
     overflow-y: hidden;
   }

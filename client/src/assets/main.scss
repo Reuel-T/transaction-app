@@ -42,6 +42,12 @@ body {
   background-size: 1.1rem 1.1rem;
 }
 
+h1.title {
+  color: #cecece;
+  letter-spacing: 0.075em;
+  text-align: center;
+}
+
 //reusable component styles
 @import url(app.scss);
 @import url(buttons.scss);

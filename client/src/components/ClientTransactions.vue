@@ -1,12 +1,14 @@
 <template>
-    <h3 v-if="transactions.length < 1">No Transactions for this client</h3>
-    <div class="scrollable" v-else>
-      <ClientTransaction
-        v-for="transaction in transactions"
-        :key="transaction.transactionID"
-        :transaction="transaction"
-      />
-    </div>
+  <div>
+    <h3>Other Info Goes here</h3>
+  </div>
+  <div class="scroll">
+    <ClientTransaction 
+      v-for="transaction in transactions"
+      :key="transaction.transactionID"
+      :transaction="transaction"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -23,9 +25,8 @@
 </script>
 
 <style scoped>
-.scrollable{
-  flex: 1;
-  overflow-y: auto;
-  border: 2px solid red;
-}
+.scroll{
+    height: 100%;
+    overflow-y: auto;
+  }
 </style>
