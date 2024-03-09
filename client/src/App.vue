@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { RouterView } from 'vue-router'
-  import AppHeader from './components/AppHeader.vue'
-  import AppFooter from './components/AppFooter.vue'
+  import AppHeader from './components/global/AppHeader.vue'
+  import AppFooter from './components/global/AppFooter.vue'
 </script>
 
 <template>
@@ -21,4 +21,4 @@
     padding-top: 2rem;
     padding-bottom: 2rem;
   }
-</style>
+</style>../components/global/AppHeader.vue/components/global/AppFooter.vue

@@ -17,7 +17,7 @@
       v-if="props.showViewLink"
       class="info"
     >
-      <RouterLink :to="`/client/${props.client.clientID}`">View</RouterLink>
+      <RouterLink role="button" :to="`/client/${props.client.clientID}`">View</RouterLink>
     </div>
   </div>
 </template>
