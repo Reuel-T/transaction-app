@@ -53,18 +53,40 @@ namespace transaction_api.Repositories
             }
         }
 
-        public async Task<Models.Transaction> GetTransactionAsync(long TransactionID)
+        public async Task<ClientTransactionDTO> GetTransactionAsync(long TransactionID)
         {
-            // Construct the SQL query for retrieving a client by ID
+            /*
+                SELECT T.[TransactionID], T.[Amount], TT.[TransactionTypeName], T.[ClientID], T.[Comment]
+                FROM [Transaction] T
+                JOIN [TransactionType] TT ON T.TransactionTypeID = TT.TransactionTypeID 
+                WHERE T.[TransactionID] = @Id
+             */
+
             string query = $@"
+                SELECT 
+                    T.{TransactionFields.TransactionID}, 
+                    T.{TransactionFields.Amount}, 
+                    T.{TransactionFields.ClientID}, 
+                    T.{TransactionFields.Comment}, 
+                    T.{TransactionFields.TransactionTypeID}, 
+                    TT.{TransactionTypeFields.TransactionTypeName} 
+                FROM {Tables.Transaction} T 
+                JOIN {Tables.TransactionType} TT ON T.{TransactionFields.TransactionTypeID} = TT.{TransactionTypeFields.TransactionTypeID} 
+                WHERE T.{TransactionFields.TransactionID} = @Id
+            ";
+
+            // Construct the SQL query for retrieving a transaction by ID
+            /*
+            string q = $@"
                 SELECT * FROM {Tables.Transaction}
                 WHERE {TransactionFields.TransactionID} = @Id
             ";
+            */
 
             // Create a new database connection using the provided context
             using var connection = _context.CreateConnection();
             // Execute the query asynchronously and retrieve a single client, or null if not found
-            var transaction = await connection.QuerySingleOrDefaultAsync<Models.Transaction>(query, new { Id = TransactionID });
+            var transaction = await connection.QuerySingleOrDefaultAsync<ClientTransactionDTO>(query, new { Id = TransactionID });
 
             // Return the retrieved client
             return transaction;
@@ -92,7 +114,7 @@ namespace transaction_api.Repositories
             return clientTransactions.ToList();
         }
 
-        public async Task<bool> UpdateCommentForTransactionAsync(long TransactionID, UpdateTransactionDTO transaction)
+        public async Task<bool> UpdateCommentForTransactionAsync(long TransactionID, UpdateTransactionCommentDTO transaction)
         {
             //Update Query
             string query = $@"

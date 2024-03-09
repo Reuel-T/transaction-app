@@ -50,13 +50,14 @@ namespace transaction_api.Controllers
                 if (transaction == null) return NotFound();
 
                 //return the transaction
-                return Ok(new TransactionDTO
+                return Ok(new ClientTransactionDTO
                 {
                     TransactionID = transaction.TransactionID,
                     Amount = transaction.Amount,
                     Comment = transaction.Comment,
                     ClientID = transaction.ClientID,
-                    TransactionTypeID = transaction.TransactionTypeID
+                    TransactionTypeID = transaction.TransactionTypeID,
+                    TransactionTypeName = transaction.TransactionTypeName
                 });
             }
             catch (Exception ex)
@@ -130,8 +131,10 @@ namespace transaction_api.Controllers
                 //check modelstate
                 if (!ModelState.IsValid) return BadRequest("Invalid Model");
 
+                TransactionType transactionType = await _transactionTypeRepository.GetTransactionTypeByIDAsync(createTransaction.TransactionTypeID);
+
                 //check if transactionType exists
-                if (await _transactionTypeRepository.GetTransactionTypeByIDAsync(createTransaction.TransactionTypeID) == null)
+                if (transactionType == null)
                 {
                     return NotFound("Transaction Type not found");
                 }
@@ -143,12 +146,22 @@ namespace transaction_api.Controllers
                 }
 
                 //create the transaction
-                var newTransaction = await _transactionRepository.CreateTransactionAsync(createTransaction);
+                TransactionDTO newTransaction = await _transactionRepository.CreateTransactionAsync(createTransaction);
 
                 //if transaction successfully created
                 if (newTransaction != null)
                 {
-                    return CreatedAtRoute("TransactionByID", new { newTransaction.TransactionID }, newTransaction);
+                    ClientTransactionDTO clientTransactionDTO = new ClientTransactionDTO
+                    {
+                        Amount = newTransaction.Amount,
+                        ClientID = newTransaction.ClientID,
+                        Comment = newTransaction.Comment,
+                        TransactionID = newTransaction.TransactionID,
+                        TransactionTypeID = newTransaction.TransactionTypeID,
+                        TransactionTypeName = transactionType.TransactionTypeName
+                    };
+
+                    return CreatedAtRoute("TransactionByID", new { newTransaction.TransactionID }, clientTransactionDTO);
                 }
                 else 
                 {
@@ -166,13 +179,13 @@ namespace transaction_api.Controllers
         [Route("comment/{id}")]
         [SwaggerOperation(
             Summary = "Updates a comment associated with a transaction",
-            Description = "Retrieves a list of a client's from transactions the database.",
+            Description = "Updates the comment of a transaction.",
             Tags = new[] { "Transactions" }
         )]
-        [SwaggerResponse(201, "Transaction created successfully", typeof(TransactionDTO))]
+        [SwaggerResponse(201, "Transaction comment updated successfully", typeof(TransactionDTO))]
         [SwaggerResponse(400, "Bad request - ModelState is not valid", typeof(void))]
         [SwaggerResponse(500, "Internal server error", typeof(void))]
-        public async Task<ActionResult> UpdateTransactionComment(long id, [FromBody]UpdateTransactionDTO transactionDTO) 
+        public async Task<ActionResult> UpdateTransactionComment(long id, [FromBody]UpdateTransactionCommentDTO transactionDTO) 
         {
             try
             {
@@ -195,13 +208,14 @@ namespace transaction_api.Controllers
                     //TODO Create CreateTransactionRoute, 
                     return CreatedAtRoute("TransactionByID", 
                         new { TransactionID = id }, 
-                        new TransactionDTO 
+                        new ClientTransactionDTO 
                         { 
                             TransactionID = transaction.TransactionID,
                             ClientID = transaction.ClientID,
                             Amount = transaction.Amount,
                             Comment = transactionDTO.Comment,
-                            TransactionTypeID = transaction.TransactionTypeID
+                            TransactionTypeID = transaction.TransactionTypeID,
+                            TransactionTypeName = transaction.TransactionTypeName
                         });
                 }
                 else

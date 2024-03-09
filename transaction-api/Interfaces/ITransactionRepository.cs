@@ -6,8 +6,8 @@ namespace transaction_api.Interfaces
     public interface ITransactionRepository
     {
         public Task<TransactionDTO> CreateTransactionAsync(CreateTransactionDTO transactionDTO);
-        public Task<Transaction> GetTransactionAsync(long TransactionID);
+        public Task<ClientTransactionDTO> GetTransactionAsync(long TransactionID);
         public Task<IEnumerable<ClientTransactionDTO>> GetTransactionsForClientAsync(int ClientID);
-        public Task<bool> UpdateCommentForTransactionAsync(long TransactionID, UpdateTransactionDTO transaction);
+        public Task<bool> UpdateCommentForTransactionAsync(long TransactionID, UpdateTransactionCommentDTO transaction);
     }
 }
