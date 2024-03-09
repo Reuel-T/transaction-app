@@ -14,12 +14,15 @@
 
 <style lang="scss" scoped>
   .router-content {
-    margin-left: 4rem;
-    margin-right: 4rem;
+
+    display: flex;
+    flex-direction: column;
+
+    margin: 1rem, 2rem;
+
+    border: 2px solid yellow;
     flex-grow: 1;
 
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+    overflow: hidden;
   }
 </style>
-../components/global/AppHeader.vue/components/global/AppFooter.vue

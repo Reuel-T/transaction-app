@@ -1,0 +1,47 @@
+// Style the select element
+select {
+  padding: 0;
+  appearance: none;
+  border: 2px solid #b4b4b4;
+  border-radius: 4px;
+  background-color: transparent;
+  font-size: 1.1rem;
+  color: #fff;
+  cursor: pointer;
+  text-align: center;
+  transition:
+    border-color 0.3s,
+    background-color 0.3s,
+    color 0.3s;
+
+  &:hover {
+    border-color: white;
+    color: white;
+    box-shadow: 0.05em 0.05em 1em rgba(255, 255, 255, 0.1);
+  }
+
+  // Style the options within the select
+  option {
+    padding: 10px;
+    font-size: 14px;
+    background-color: transparent;
+    color: #333;
+  }
+
+  // Style the options on hover
+  option:hover {
+    background-color: #e0e0e0;
+  }
+
+  &:focus{
+    border-color: #34dbdb; 
+    box-shadow: 0 0 5px rgba(0, 232, 248, 0.788); 
+    outline: none; 
+  }
+
+  // Style the selected option
+  & option:checked {
+    background-color: #3498db;
+    color: #fff;
+  }
+}

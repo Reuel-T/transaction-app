@@ -1,9 +1,10 @@
 import { API_BASEURL, API_ROUTES } from '@/constants/AppConstants'
+import type { ClientTransactionDTO } from '@/models/ClientTransactionDTO'
 import type { CreateClientTransactionDTO } from '@/models/CreateClientTransactionDTO'
 import { ref } from 'vue'
 
 interface UsePostClientTransactionProps {
-  onSuccess?: () => void
+  onSuccess?: (data: ClientTransactionDTO) => void
   onError?: () => void
 }
 
@@ -32,8 +33,8 @@ export function usePostClientTransaction({
       const res = await fetch(`${API_BASEURL}/${API_ROUTES.transactions}`, requestOptions)
 
       if (res.status === 201) {
-        console.log()
-        onSuccess()
+        const data: ClientTransactionDTO = await res.json();        
+        onSuccess(data);
       } else {
         onError()
         throw new Error('Error on making new transaction')

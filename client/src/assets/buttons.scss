@@ -1,16 +1,19 @@
 button.btn {
   display: inline-block;
   font-weight: bold;
+  font-size: 1.1rem;
   text-align: center;
   text-decoration: none;
   cursor: pointer;
-  padding: 0 0.5rem;
+  padding: 0 .5rem;
   border: 2.5px solid black;
   border-radius: 4px;
   color: black;
   background-color: #b4b4b4;
   transition:
     background-color 0.3s,
+    border-color 0.3s,
+    box-shadow 0.3s,
     color 0.3s;
 
   // Hover state
@@ -23,8 +26,14 @@ button.btn {
     transform: translateY(2px);
   }
 
-  // Pill-shaped button
+  &:focus{
+    background-color: #fff;
+    border-color: #34dbdb; 
+    box-shadow: 0 0 5px rgba(0, 232, 248, 0.788); 
+    outline: none; 
+  }
+
 }
 button.btn.pill {
-  border-radius: 20px; // Adjust the value for the desired pill shape
+  border-radius: 20px;
 }

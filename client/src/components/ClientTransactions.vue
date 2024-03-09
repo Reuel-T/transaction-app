@@ -1,5 +1,5 @@
 <template>
-  <div>
+  
     <h3 v-if="transactions.length < 1">No Transactions for this client</h3>
     <div v-else>
       <ClientTransaction
@@ -8,7 +8,7 @@
         :transaction="transaction"
       />
     </div>
-  </div>
+  
 </template>
 
 <script setup lang="ts">

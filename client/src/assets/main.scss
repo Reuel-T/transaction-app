@@ -1,5 +1,9 @@
+//add css reset
 @import url(reset.scss);
+//add font classes
 @import url(fonts.scss);
+
+/* Main app styles */
 
 h1,
 h2,
@@ -42,12 +46,6 @@ body {
     border-radius: 1rem;
     border: 1px solid rgb(48, 48, 48);
     box-shadow: 0.05em 0.05em 1em rgba(255, 255, 255, 0.1);
-
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-    padding-left: 2rem;
-    padding-right: 2rem;
-
     height: 100%;
 
     h1 {
@@ -63,5 +61,8 @@ body {
   }
 }
 
+//reusable component styles
 @import url(app.scss);
 @import url(buttons.scss);
+@import url(inputs.scss);
+@import url(selects.scss);

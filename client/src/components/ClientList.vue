@@ -135,7 +135,7 @@
   })
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
   .table-headings {
     display: flex;
     flex-direction: row;
@@ -184,7 +184,7 @@
       color 0.3s;
 
     &:hover {
-      border-color: yellow;
+      border-color: white;
       color: white;
     }
 
