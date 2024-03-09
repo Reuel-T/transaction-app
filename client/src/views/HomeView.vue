@@ -1,5 +1,5 @@
 <template>
-  <div class="card" style="margin-top: 2em;">
+  <div class="page-card">
     <h1 class="title">Clients</h1>
     <div v-if="isLoading">
       <p>Loading...</p>
