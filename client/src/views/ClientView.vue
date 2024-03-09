@@ -72,7 +72,6 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    border: 2px solid aqua;
     overflow-y: hidden;
   }
 </style>
