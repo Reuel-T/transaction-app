@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h1>Home View!</h1>
+  <div class="card" style="margin-top: 2em;">
+    <h1 class="title">Clients</h1>
     <div v-if="isLoading">
       <p>Loading...</p>
     </div>
@@ -72,5 +72,6 @@
   }
 </script>
 
-<style scoped lang="scss"></style>
-@/shared/useGetClients
+<style scoped lang="scss">
+
+</style>
