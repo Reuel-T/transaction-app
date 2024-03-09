@@ -1,0 +1,30 @@
+button.btn {
+  display: inline-block;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  padding: 0 0.5rem;
+  border: 2.5px solid black;
+  border-radius: 4px;
+  color: black;
+  background-color: #b4b4b4;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
+
+  // Hover state
+  &:hover {
+    background-color: #fff;
+  }
+
+  // Active state
+  &:active {
+    transform: translateY(2px);
+  }
+
+  // Pill-shaped button
+}
+button.btn.pill {
+  border-radius: 20px; // Adjust the value for the desired pill shape
+}

@@ -1,23 +1,28 @@
 <template>
   <div class="client">
-    <div class="info">
-      <p>{{ props.client.name }}</p>
+    <div class="client-field">
+      <h3 class="kanit-light">{{ props.client.name }}</h3>
     </div>
-    <div class="info">
-      <p>{{ props.client.surname }}</p>
+    <div class="client-field">
+      <h3 class="kanit-light">{{ props.client.surname }}</h3>
     </div>
-    <div class="info">
-      <p>
+    <div class="client-field">
+      <h3 class="kanit-light">
         {{
           props.client.clientBalance.toLocaleString('en-ZA', { style: 'currency', currency: 'ZAR' })
         }}
-      </p>
+      </h3>
     </div>
     <div
+      class="client-end"
       v-if="props.showViewLink"
-      class="info"
     >
-      <RouterLink role="button" :to="`/client/${props.client.clientID}`">View</RouterLink>
+      <RouterLink
+        role="button"
+        :to="`/client/${props.client.clientID}`"
+      >
+        <button class="btn pill">View Transactions</button>
+      </RouterLink>
     </div>
   </div>
 </template>
@@ -44,8 +49,29 @@
     display: flex;
     flex-direction: row;
 
-    .info {
-      width: 10rem;
+    .client-field {
+      border-right: 2px solid rgba(255, 255, 255, 0.25);
+
+      width: calc((100% - 12rem) / 3);
+
+      align-self: center;
+      justify-self: center;
+
+      h3 {
+        margin: 0.25rem 1rem;
+        padding: 0;
+        text-align: start;
+      }
+    }
+
+    .client-end {
+      align-self: center;
+      justify-self: center;
+      min-width: 12rem;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
 </style>

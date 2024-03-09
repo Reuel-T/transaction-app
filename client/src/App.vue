@@ -21,4 +21,5 @@
     padding-top: 2rem;
     padding-bottom: 2rem;
   }
-</style>../components/global/AppHeader.vue/components/global/AppFooter.vue
+</style>
+../components/global/AppHeader.vue/components/global/AppFooter.vue

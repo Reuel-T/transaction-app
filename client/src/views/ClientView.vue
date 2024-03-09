@@ -1,6 +1,6 @@
 <template>
   <div class="page-card">
-    <h1 class="title">Client View</h1>
+    <h1 class="title">Client Transactions</h1>
     <h3>{{ $route.params.id }}</h3>
 
     <div v-if="isClientLoading">
@@ -11,7 +11,6 @@
       <h3>Client Not Found {{ $route.params.id }}</h3>
     </div>
     <div v-else-if="!isClientError && !isClientError && foundClient && client">
-      <ClientData :client="client" />
       <CreateClientTransactionForm
         @post-success="
           () => {
@@ -30,7 +29,6 @@
 </template>
 
 <script setup lang="ts">
-  import ClientData from '@/components/ClientData.vue'
   import ClientTransactions from '@/components/ClientTransactions.vue'
   import CreateClientTransactionForm from '@/components/CreateClientTransactionForm.vue'
   import { useGetClient } from '@/shared/useGetClient'
