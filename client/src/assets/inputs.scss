@@ -6,30 +6,28 @@ label {
 
 input {
   padding: 0 1rem;
-  color: #FFF;
+  color: #fff;
   font-size: 1.1rem;
   border: 2px solid #b4b4b4;
   border-radius: 4px;
   width: 100%;
   box-sizing: border-box;
   background-color: transparent;
-  transition:
-    border-color 0.3s;
-    box-shadow: 0.3s;
+  transition: border-color 0.3s;
+  box-shadow: 0.3s;
 
-  &:hover{
+  &:hover {
     border-color: #fff;
     box-shadow: 0.05em 0.05em 1em rgba(255, 255, 255, 0.1);
   }
 
-  &::placeholder{
+  &::placeholder {
     color: #b4b4b4;
   }
 
-  &:focus{
-    border-color: #34dbdb; 
-    box-shadow: 0 0 5px rgba(0, 232, 248, 0.788); 
-    outline: none; 
+  &:focus {
+    border-color: #34dbdb;
+    box-shadow: 0 0 5px rgba(0, 232, 248, 0.788);
+    outline: none;
   }
 }
-

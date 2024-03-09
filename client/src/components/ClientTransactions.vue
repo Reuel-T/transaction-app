@@ -3,7 +3,7 @@
     <h3>Other Info Goes here</h3>
   </div>
   <div class="scroll">
-    <ClientTransaction 
+    <ClientTransaction
       v-for="transaction in transactions"
       :key="transaction.transactionID"
       :transaction="transaction"
@@ -25,7 +25,7 @@
 </script>
 
 <style scoped>
-.scroll{
+  .scroll {
     height: 100%;
     overflow-y: auto;
   }

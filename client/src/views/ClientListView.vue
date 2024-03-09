@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-  import AppPageWrapper from '@/components/global/AppPageWrapper.vue';
+  import AppPageWrapper from '@/components/global/AppPageWrapper.vue'
   import ClientList from '@/components/ClientList.vue'
   import { useClients } from '@/shared/useGetClients'
 

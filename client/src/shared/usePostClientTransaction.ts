@@ -33,8 +33,8 @@ export function usePostClientTransaction({
       const res = await fetch(`${API_BASEURL}/${API_ROUTES.transactions}`, requestOptions)
 
       if (res.status === 201) {
-        const data: ClientTransactionDTO = await res.json();        
-        onSuccess(data);
+        const data: ClientTransactionDTO = await res.json()
+        onSuccess(data)
       } else {
         onError()
         throw new Error('Error on making new transaction')

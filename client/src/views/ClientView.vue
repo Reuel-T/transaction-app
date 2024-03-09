@@ -3,18 +3,24 @@
     <div class="container">
       <h1 class="title">Client Transactions</h1>
 
-      <div class="container" v-if="foundClient && !isClientError">
+      <div
+        class="container"
+        v-if="foundClient && !isClientError"
+      >
         <!-- Client Info -->
-        <ClientInfoCard :client="client" :is-loading="isClientLoading"/>
-        
+        <ClientInfoCard
+          :client="client"
+          :is-loading="isClientLoading"
+        />
+
         <!-- Create Transaction Form -->
         <CreateClientTransactionForm
           @post-success="
-            (data : ClientTransactionDTO) => {
+            (data: ClientTransactionDTO) => {
               refetchClient()
-              console.log(data);
+              console.log(data)
               if (transactions) {
-                transactions.push(data);  
+                transactions.push(data)
               }
             }
           "
@@ -23,13 +29,13 @@
 
         <div class="container">
           <ClientTransactions
-            v-if="!isTransactionsError && !isTransactionsLoading && !transactions404 && transactions"
+            v-if="
+              !isTransactionsError && !isTransactionsLoading && !transactions404 && transactions
+            "
             :transactions="transactions"
           />
         </div>
-
       </div>
-
     </div>
   </AppPageWrapper>
 </template>
@@ -57,12 +63,12 @@
     transactions,
     is404: transactions404,
     isLoading: isTransactionsLoading,
-    isError: isTransactionsError,
+    isError: isTransactionsError
   } = useGetClientTransactions(Number(route.params.id))
 </script>
 
 <style lang="scss" scoped>
-  .container{
+  .container {
     height: 100%;
     display: flex;
     flex-direction: column;

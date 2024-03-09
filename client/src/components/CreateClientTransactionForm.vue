@@ -1,53 +1,66 @@
 <template>
-  <div class="card" style="margin-top: 2rem;">
+  <div
+    class="card"
+    style="margin-top: 2rem"
+  >
     <h3>Create New Transaction</h3>
     <form @submit.prevent="onSubmit">
-    <!-- Comment -->
-    <div class="form-group">
-      <label for="comment">Comment</label>
-      <input
-        id="comment"
-        v-model.trim="formData.comment"
-        type="text"
-        placeholder="Comment"
-        :disabled="isPosting"
-      />
-    </div>
-
-    <!-- Amount -->
-    <div class="form-group">
-      <label for="amount">Amount</label>
-      <div class="transaction-amount-wrapper">
-        <p>{{ transactionSymbol }}</p>
+      <!-- Comment -->
+      <div class="form-group">
+        <label for="comment">Comment</label>
         <input
-          required
-          id="amount"
-          v-model.number="formData.amount"
-          type="number"
-          :min="1"
-          placeholder="Amount"
+          id="comment"
+          v-model.trim="formData.comment"
+          type="text"
+          placeholder="Comment"
           :disabled="isPosting"
         />
       </div>
-    </div>
-    <!-- Transaction Type -->
-    <div class="form-group">
-      <label for="transactionType">Type</label>
-      <div class="transaction-type-wrapper"></div>
-      <select
-        id="transactionType"
-        v-model.number="formData.transactionTypeID"
-        :disabled="isPosting"
-      >
-        <option value="1">Debit</option>
-        <option value="2">Credit</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label for="submit" style="color: transparent;">Submit</label>
-      <button id="submit" class="btn pill" type="submit">Create</button>
-    </div>
-  </form>
+
+      <!-- Amount -->
+      <div class="form-group">
+        <label for="amount">Amount</label>
+        <div class="transaction-amount-wrapper">
+          <p>{{ transactionSymbol }}</p>
+          <input
+            required
+            id="amount"
+            v-model.number="formData.amount"
+            type="number"
+            :min="1"
+            placeholder="Amount"
+            :disabled="isPosting"
+          />
+        </div>
+      </div>
+      <!-- Transaction Type -->
+      <div class="form-group">
+        <label for="transactionType">Type</label>
+        <div class="transaction-type-wrapper"></div>
+        <select
+          id="transactionType"
+          v-model.number="formData.transactionTypeID"
+          :disabled="isPosting"
+        >
+          <option value="1">Debit</option>
+          <option value="2">Credit</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label
+          for="submit"
+          style="color: transparent"
+          >Submit</label
+        >
+        <button
+          id="submit"
+          class="btn pill"
+          type="submit"
+        >
+          Create
+        </button>
+      </div>
+    </form>
   </div>
 </template>
 
@@ -73,7 +86,7 @@
   })
 
   const transactionSymbol = computed(() => {
-    return formData.transactionTypeID === 1 ? '+' : '-';
+    return formData.transactionTypeID === 1 ? '+' : '-'
   })
 
   const emit = defineEmits(['post-success'])
@@ -91,7 +104,7 @@
   })
   //post the form data to the API
   function onSubmit() {
-    let transactionAmount = Math.abs(formData.amount);
+    let transactionAmount = Math.abs(formData.amount)
 
     //if transaction is type credit, set amount to negative
     if (formData.transactionTypeID === 2) {
@@ -105,38 +118,38 @@
       transactionTypeID: formData.transactionTypeID
     }
 
-    postData(dataToPost);
+    postData(dataToPost)
   }
 </script>
 
 <style lang="scss" scoped>
-  .card{
+  .card {
     backdrop-filter: blur(1px);
     border-radius: 1rem;
     border: 1px solid rgb(48, 48, 48);
     box-shadow: 0.05em 0.05em 1em rgba(255, 255, 255, 0.1);
     padding: 1rem;
 
-    h3{
-      margin:0;
-      padding: .5rem;
+    h3 {
+      margin: 0;
+      padding: 0.5rem;
     }
   }
 
-  form{
+  form {
     display: flex;
     width: 100%;
 
-    .form-group{
-      padding: .5rem;
+    .form-group {
+      padding: 0.5rem;
       display: flex;
       flex-direction: column;
       flex-grow: 1;
 
-      .transaction-amount-wrapper{
+      .transaction-amount-wrapper {
         display: flex;
         flex-direction: row;
-        p{
+        p {
           text-align: center;
           width: 1rem;
           font-weight: bold;

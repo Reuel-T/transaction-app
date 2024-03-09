@@ -33,10 +33,10 @@ select {
     background-color: #e0e0e0;
   }
 
-  &:focus{
-    border-color: #34dbdb; 
-    box-shadow: 0 0 5px rgba(0, 232, 248, 0.788); 
-    outline: none; 
+  &:focus {
+    border-color: #34dbdb;
+    box-shadow: 0 0 5px rgba(0, 232, 248, 0.788);
+    outline: none;
   }
 
   // Style the selected option
