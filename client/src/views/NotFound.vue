@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="page-card">
     <h1>Route not Found</h1>
     <RouterLink to="/">Home</RouterLink>
   </div>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
-import AppHeader from './components/AppHeader.vue';
-  import AppFooter from './components/AppFooter.vue';
+  import { RouterView } from 'vue-router'
+  import AppHeader from './components/AppHeader.vue'
+  import AppFooter from './components/AppFooter.vue'
 </script>
 
 <template>
@@ -9,15 +9,15 @@ import AppHeader from './components/AppHeader.vue';
   <div class="router-content">
     <RouterView />
   </div>
-  <AppFooter/>
+  <AppFooter />
 </template>
 
 <style lang="scss" scoped>
-  .router-content{
+  .router-content {
     margin-left: 4rem;
     margin-right: 4rem;
     flex-grow: 1;
-    
+
     padding-top: 2rem;
     padding-bottom: 2rem;
   }

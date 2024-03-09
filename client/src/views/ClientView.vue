@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h1>Client View</h1>
+  <div class="page-card">
+    <h1 class="title">Client View</h1>
     <h3>{{ $route.params.id }}</h3>
 
     <div v-if="isClientLoading">
@@ -33,7 +33,6 @@
   import ClientData from '@/components/ClientData.vue'
   import ClientTransactions from '@/components/ClientTransactions.vue'
   import CreateClientTransactionForm from '@/components/CreateClientTransactionForm.vue'
-  import type { CreateClientTransactionDTO } from '@/models/CreateClientTransactionDTO'
   import { useGetClient } from '@/shared/useGetClient'
   import { useGetClientTransactions } from '@/shared/useGetClientTransactions'
   import { useRoute } from 'vue-router'
