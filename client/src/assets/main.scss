@@ -40,25 +40,6 @@ body {
 
   background-image: radial-gradient(rgba(32, 32, 32) 1px, rgb(16, 16, 16) 1px);
   background-size: 1.1rem 1.1rem;
-
-  .page-card {
-    backdrop-filter: blur(1px);
-    border-radius: 1rem;
-    border: 1px solid rgb(48, 48, 48);
-    box-shadow: 0.05em 0.05em 1em rgba(255, 255, 255, 0.1);
-    height: 100%;
-
-    h1 {
-      margin: 0;
-      padding: 0;
-    }
-  }
-
-  h1.title {
-    color: #cecece;
-    letter-spacing: 0.075em;
-    text-align: center;
-  }
 }
 
 //reusable component styles

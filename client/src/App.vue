@@ -14,15 +14,11 @@
 
 <style lang="scss" scoped>
   .router-content {
-
     display: flex;
     flex-direction: column;
-
-    margin: 1rem, 2rem;
-
+    align-items: center;
+    justify-content: center;
     border: 2px solid yellow;
     flex-grow: 1;
-
-    overflow: hidden;
   }
 </style>

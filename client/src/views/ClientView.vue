@@ -53,14 +53,13 @@ import type { ClientTransactionDTO } from '@/models/ClientTransactionDTO'
     is404: transactions404,
     isLoading: isTransactionsLoading,
     isError: isTransactionsError,
-    fetchClientTransactions: refetchTransactions
   } = useGetClientTransactions(Number(route.params.id))
 </script>
 
 <style scoped>
   .transaction-list-wrapper{
-    max-height: 100%;
+    height: 100%;
     border: 2px solid aqua;
-    overflow-y: auto;
+    overflow-y: hidden;
   }
 </style>
