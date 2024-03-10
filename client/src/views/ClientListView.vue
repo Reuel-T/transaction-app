@@ -9,6 +9,16 @@
         <p>There was an Error</p>
       </div>
 
+      <div v-if="!isError && !isLoading">
+        <CreateClientForm
+          @client-posted="
+            (newClient: ClientDTO) => {
+              data.push(newClient)
+            }
+          "
+        />
+      </div>
+
       <div
         class="card container"
         style="margin-bottom: 0.5rem"
@@ -21,9 +31,11 @@
 </template>
 
 <script setup lang="ts">
+  import CreateClientForm from '@/components/page/client-list/CreateClientForm.vue'
   import AppPageWrapper from '@/components/global/AppPageWrapper.vue'
   import ClientList from '@/components/page/client-list/ClientList.vue'
   import { useClients } from '@/shared/useGetClients'
+  import type { ClientDTO } from '@/models/ClientDTO'
 
   const { data, isError, isLoading } = useClients()
 </script>

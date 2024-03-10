@@ -3,7 +3,11 @@
   <div class="title-row">
     <h2>Clients</h2>
     <label for="searchField">Search Clients</label>
-    <input id="searchField" type="text" v-model.trim="searchField"/>
+    <input
+      id="searchField"
+      type="text"
+      v-model.trim="searchField"
+    />
     <label for="sortField">Sort By:</label>
     <select
       id="sortField"
@@ -14,7 +18,10 @@
       <option value="surname">Surname</option>
       <option value="clientBalance">Balance</option>
     </select>
-    <select v-model="sortOrder">
+    <select
+      id="sortOrder"
+      v-model="sortOrder"
+    >
       <option value="asc">ASC</option>
       <option value="desc">DESC</option>
     </select>
@@ -44,7 +51,7 @@
 
 <script setup lang="ts">
   import { computed, ref, type PropType } from 'vue'
-  import ClientData from '@/components/page/client-list/ClientData.vue';
+  import ClientData from '@/components/page/client-list/ClientData.vue'
   import type { ClientDTO } from '@/models/ClientDTO'
   import type { ClientSortType } from '@/types/ClientSortTypes'
   import type { SortOrder } from '@/types/SortOrder'
@@ -52,8 +59,8 @@
   const sortField = ref<ClientSortType>('clientID')
   const sortOrder = ref<SortOrder>('asc')
 
-  const searchField = ref<string>('');
-  
+  const searchField = ref<string>('')
+
   const props = defineProps({
     clients: {
       required: true,
@@ -63,8 +70,10 @@
 
   const sortedClients = computed(() => {
     const filtered = [...props.clients].filter((client) => {
-      return `${client.name} ${client.surname}`.toLowerCase().includes(searchField.value.toLowerCase());
-    });
+      return `${client.name} ${client.surname}`
+        .toLowerCase()
+        .includes(searchField.value.toLowerCase())
+    })
 
     if (sortOrder.value === 'asc') {
       return filtered.sort((c1: ClientDTO, c2: ClientDTO) => {
@@ -79,14 +88,14 @@
 </script>
 
 <style scoped lang="scss">
-.scroll {
+  .scroll {
     height: 100%;
     overflow-y: auto;
 
     scrollbar-width: thin;
   }
 
-.title-row {
+  .title-row {
     align-items: center;
     display: flex;
     flex-direction: row;
