@@ -1,7 +1,20 @@
 <template>
   <AppPageWrapper>
     <div class="container">
-      <h1 class="title">Client Transactions</h1>
+      <div class="title-wrapper">
+        <RouterLink
+          to="/"
+          role="button"
+        >
+          <button
+            id="back"
+            class="btn pill"
+          >
+            Back
+          </button>
+        </RouterLink>
+        <h1 class="title">Client Transactions</h1>
+      </div>
 
       <div
         class="container"
@@ -77,5 +90,10 @@
     display: flex;
     flex-direction: column;
     overflow-y: hidden;
+  }
+
+  button#back {
+    position: absolute;
+    top: 0.5rem;
   }
 </style>

@@ -43,6 +43,8 @@ body {
 }
 
 h1.title {
+  margin: 0;
+  padding: 0;
   color: #cecece;
   letter-spacing: 0.075em;
   text-align: center;
@@ -58,6 +60,10 @@ h1.title {
 
 .money {
   text-align: right;
+}
+
+.title-wrapper {
+  position: relative;
 }
 
 //reusable component styles

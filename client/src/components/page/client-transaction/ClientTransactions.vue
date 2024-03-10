@@ -28,6 +28,13 @@
     <div class="heading-row-end"></div>
   </div>
 
+  <div
+    v-if="transactions.length < 1"
+    class="card"
+  >
+    <h3>No Transactions...</h3>
+  </div>
+
   <div class="scroll">
     <ClientTransaction
       v-for="transaction in sortedTransactions"

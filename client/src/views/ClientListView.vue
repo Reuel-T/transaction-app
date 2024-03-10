@@ -11,6 +11,7 @@
 
       <div v-if="!isError && !isLoading">
         <CreateClientForm
+          style="margin-bottom: 0.5rem"
           @client-posted="
             (newClient: ClientDTO) => {
               data.push(newClient)

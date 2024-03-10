@@ -1,30 +1,57 @@
 <template>
   <!-- Card Title + Sorting Fields -->
   <div class="title-row">
-    <h2>Clients</h2>
-    <label for="searchField">Search Clients</label>
-    <input
-      id="searchField"
-      type="text"
-      v-model.trim="searchField"
-    />
-    <label for="sortField">Sort By:</label>
-    <select
-      id="sortField"
-      v-model="sortField"
+    <div
+      style="flex: 2"
+      class="title-item"
     >
-      <option value="clientID">Default</option>
-      <option value="name">Name</option>
-      <option value="surname">Surname</option>
-      <option value="clientBalance">Balance</option>
-    </select>
-    <select
-      id="sortOrder"
-      v-model="sortOrder"
+      <h2>Clients</h2>
+    </div>
+
+    <div
+      style="flex: 3"
+      class="title-item"
     >
-      <option value="asc">ASC</option>
-      <option value="desc">DESC</option>
-    </select>
+      <label
+        style="width: 50%"
+        for="searchField"
+        >Search Clients</label
+      >
+      <input
+        id="searchField"
+        type="text"
+        v-model.trim="searchField"
+      />
+    </div>
+
+    <div
+      style="flex: 2"
+      class="title-item"
+    >
+      <label
+        style="flex: 1; text-align: right"
+        for="sortField"
+        >Sort By:</label
+      >
+      <select
+        id="sortField"
+        v-model="sortField"
+        style="margin-left: 0.5rem"
+      >
+        <option value="clientID">Default</option>
+        <option value="name">Name</option>
+        <option value="surname">Surname</option>
+        <option value="clientBalance">Balance</option>
+      </select>
+      <select
+        id="sortOrder"
+        v-model="sortOrder"
+        style="margin-left: 0.5rem"
+      >
+        <option value="asc">ASC</option>
+        <option value="desc">DESC</option>
+      </select>
+    </div>
   </div>
 
   <div class="heading-row">
@@ -96,6 +123,7 @@
   }
 
   .title-row {
+    width: 100%;
     align-items: center;
     display: flex;
     flex-direction: row;
@@ -104,6 +132,11 @@
       flex-grow: 1;
     }
     padding: 0 1rem;
+    .title-item {
+      align-items: center;
+      display: flex;
+      flex-direction: row;
+    }
   }
 
   .heading-row {
