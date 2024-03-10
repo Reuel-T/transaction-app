@@ -5,11 +5,15 @@
     <select
       id="sortField"
       v-model="sortField"
+      style="margin-left: 0.5rem"
     >
       <option value="transactionID">Chronological</option>
       <option value="amount">Amount</option>
     </select>
-    <select v-model="sortOrder">
+    <select
+      v-model="sortOrder"
+      style="margin-left: 0.5rem"
+    >
       <option value="asc">ASC</option>
       <option value="desc">DESC</option>
     </select>

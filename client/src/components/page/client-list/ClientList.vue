@@ -88,7 +88,7 @@
   import type { ClientSortType } from '@/types/ClientSortTypes'
   import type { SortOrder } from '@/types/SortOrder'
 
-  const sortField = ref<ClientSortType>('clientID')
+  const sortField = ref<ClientSortType>('name')
   const sortOrder = ref<SortOrder>('asc')
 
   const searchField = ref<string>('')
