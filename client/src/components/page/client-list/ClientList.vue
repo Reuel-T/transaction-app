@@ -63,7 +63,7 @@
 
 <script setup lang="ts">
   import { computed, ref, type PropType } from 'vue'
-  import ClientListData from './page/client-list/ClientListData.vue'
+  import ClientListData from '@/components/page/client-list/ClientListData.vue'
   import type { ClientDTO } from '@/models/ClientDTO'
   import type { ClientSortType } from '@/types/ClientSortTypes'
   import type { SortOrder } from '@/types/SortOrder'
