@@ -10,7 +10,7 @@
       </div>
 
       <div
-        class="card"
+        class="card container"
         v-if="!isLoading && !isError"
       >
         <ClientList :clients="data" />
