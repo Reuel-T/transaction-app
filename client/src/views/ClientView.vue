@@ -28,7 +28,10 @@
         />
 
         <!-- Transaction List -->
-        <div class="container card">
+        <div
+          class="container card"
+          style="margin-bottom: 0.5rem"
+        >
           <ClientTransactions
             v-if="
               !isTransactionsError && !isTransactionsLoading && !transactions404 && transactions

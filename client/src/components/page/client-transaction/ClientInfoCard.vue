@@ -33,6 +33,8 @@
 
 <style lang="scss" scoped>
   .card {
+    margin: 0.5rem 0;
+
     h2 {
       margin: 0;
       padding: 0;

@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <h3>Create New Transaction</h3>
+    <h2>Create New Transaction</h2>
     <form @submit.prevent="onSubmit">
       <!-- Comment -->
       <div class="form-group">
@@ -121,7 +121,9 @@
 
 <style lang="scss" scoped>
   .card {
-    h3 {
+    margin-bottom: 0.5rem;
+
+    h2 {
       margin: 0;
       padding: 0.5rem;
     }
