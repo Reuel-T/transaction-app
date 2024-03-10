@@ -2,6 +2,8 @@
   <!-- Card Title + Sorting Fields -->
   <div class="title-row">
     <h2>Clients</h2>
+    <label for="searchField">Search Clients</label>
+    <input id="searchField" type="text" v-model.trim="searchField"/>
     <label for="sortField">Sort By:</label>
     <select
       id="sortField"
@@ -60,7 +62,19 @@
   })
 
   const sortedClients = computed(() => {
-    return [...props.clients]
+    const filtered = [...props.clients].filter((client) => {
+      return `${client.name} ${client.surname}`.toLowerCase().includes(searchField.value.toLowerCase());
+    });
+
+    if (sortOrder.value === 'asc') {
+      return filtered.sort((c1: ClientDTO, c2: ClientDTO) => {
+        return c1[sortField.value] > c2[sortField.value] ? 1 : -1
+      })
+    } else {
+      return filtered.sort((c1: ClientDTO, c2: ClientDTO) => {
+        return c1[sortField.value] < c2[sortField.value] ? 1 : -1
+      })
+    }
   })
 </script>
 

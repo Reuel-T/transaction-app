@@ -11,6 +11,7 @@
 
       <div
         class="card container"
+        style="margin-bottom: 0.5rem"
         v-if="!isLoading && !isError"
       >
         <ClientList :clients="data" />
