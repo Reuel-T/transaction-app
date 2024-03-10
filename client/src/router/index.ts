@@ -11,7 +11,7 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: ClientListView,
-      meta: {transition: 'route-back'}
+      meta: { transition: 'route-back' }
     },
     {
       path: '/client/:id',

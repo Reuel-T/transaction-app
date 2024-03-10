@@ -9,10 +9,13 @@
 
   <div class="router-content">
     <RouterView v-slot="{ Component, route }">
-    <Transition :name="route.meta.transition ? 'route-back' : 'route'" mode="out-in">
-      <component :is="Component"></component>
-    </Transition>
-  </RouterView>    
+      <Transition
+        :name="route.meta.transition ? 'route-back' : 'route'"
+        mode="out-in"
+      >
+        <component :is="Component"></component>
+      </Transition>
+    </RouterView>
   </div>
   <AppFooter />
 </template>
@@ -32,31 +35,31 @@
     transform: translateX(100px);
   }
   .route-enter-active {
-    transition: all 0.3s ease-out; 
+    transition: all 0.3s ease-out;
   }
   .route-leave-to {
     opacity: 0;
     transform: translateX(-100px);
   }
   .route-leave-active {
-    transition: all 0.3s ease-in; 
+    transition: all 0.3s ease-in;
   }
 
-  .route-back-enter-from{
+  .route-back-enter-from {
     opacity: 0;
     transform: translateX(-100px);
   }
 
-  .route-back-enter-active{
+  .route-back-enter-active {
     transition: all 0.3s ease-out;
   }
 
-  .route-back-leave-to{
+  .route-back-leave-to {
     opacity: 0;
     transform: translateX(100px);
   }
 
-  .route-back-leave-active{
-    transition: all 0.3s ease-in; 
+  .route-back-leave-active {
+    transition: all 0.3s ease-in;
   }
 </style>
