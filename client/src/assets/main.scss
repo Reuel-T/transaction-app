@@ -48,8 +48,21 @@ h1.title {
   text-align: center;
 }
 
+.negative{
+  color: #ff0055;
+}
+
+.positive{
+  color: #00c552;
+}
+
+.money{
+  text-align: right;
+}
+
 //reusable component styles
 @import url(app.scss);
 @import url(buttons.scss);
 @import url(inputs.scss);
 @import url(selects.scss);
+@import url(cards.scss);

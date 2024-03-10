@@ -5,7 +5,7 @@
     <h3 v-else>{{ client.name }} {{ client.surname }}</h3>
     <h1>
       Balance: <span v-if="isLoading || !client">Loading...</span>
-      <span v-else>{{ numberToCurrency(client.clientBalance) }}</span>
+      <span :class="client.clientBalance > 0 ? 'positive' : 'negative'" v-else>{{ numberToCurrency(client.clientBalance) }}</span>
     </h1>
   </div>
 </template>
@@ -29,12 +29,6 @@
 
 <style lang="scss" scoped>
   .card {
-    backdrop-filter: blur(1px);
-    border-radius: 1rem;
-    border: 1px solid rgb(48, 48, 48);
-    box-shadow: 0.05em 0.05em 1em rgba(255, 255, 255, 0.1);
-    padding: 1rem;
-
     h2 {
       margin: 0;
       padding: 0;

@@ -1,9 +1,9 @@
 <template>
-  <div class="transaction">
+  <div class="transaction card">
 
     <div class="transaction-row">
       <div class="transaction-row-item">
-        <p>{{ numberToCurrency(localTransaction.amount) }}</p>
+        <p class="money" :class="localTransaction.amount > 0 ? 'positive' : 'negative'" >{{ numberToCurrency(localTransaction.amount) }}</p>
       </div>
       <div class="transaction-row-item">
         <p>{{ localTransaction.transactionTypeName }}</p>
@@ -12,11 +12,9 @@
         <p>{{ localTransaction.comment }}</p>
       </div>
       <div class="transaction-row-end">
-        <button @click="() => {showForm = !showForm}" class="btn">Edit</button>
+        <button @click="() => {showForm = !showForm}" class="btn pill">{{ showForm ? 'Close' : 'Edit' }}</button>
       </div>
     </div>
-
-    
       <form v-if="showForm" class="transaction-form"
         @submit.prevent="
           () => {
@@ -36,8 +34,9 @@
         </div>
 
         <div class="form-group">
-          <label for="update">Update Comment</label>
+          <label for="update"><span>&ThickSpace;</span></label>
           <button
+            class="btn pill"
             id="update"
             :type="'submit'"
             :disabled="isUpdating"
@@ -93,6 +92,7 @@
   function commentUpdated(data: ClientTransactionDTO) {
     localTransaction.value.comment = data.comment
     formData.comment = ''
+    showForm.value = false;
   }
 
   /* 
@@ -109,20 +109,47 @@
 </script>
 
 <style lang="scss" scoped>
+  .card{
+    backdrop-filter: blur(1px);
+    border-radius: 1rem;
+    border: 1px solid rgb(48, 48, 48);
+    box-shadow: 0.05em 0.05em 1em rgba(255, 255, 255, 0.1);
+    padding: .25rem
+  }
+
   .transaction {
     display: flex;
     flex-direction: column;
+    margin-bottom: .5rem;
 
     .transaction-row{
       display: flex;
       flex-direction: row;
       
       .transaction-row-item{
+        display: flex;
+        align-items: center;
+
         width: 30%;
+        p{
+          width: 100%;
+          margin: 0;
+          padding: 0;
+          text-align: center;
+        }
+
+        p.money{
+          text-align: right;
+          margin-right: 1rem;
+        }
       }
 
       .transaction-row-end{
         width: 10%;
+
+        button.btn{
+          width: 100%;
+        }
       }
 
     }
@@ -131,11 +158,21 @@
       display: flex;
       flex-direction: row;
 
+      margin: .5rem;
+
       .form-group{
         display: flex;
         flex-direction: column;
+
+        button.btn{
+          width: 100%;
+        }
       }
 
+      .form-group:first-child{
+        width: 90%;
+        margin-right: 2rem;
+      }
     }
   }
 </style>

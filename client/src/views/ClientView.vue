@@ -68,15 +68,6 @@
 </script>
 
 <style lang="scss" scoped>
-  .card {
-    margin: 2rem 0;
-    backdrop-filter: blur(1px);
-    border-radius: 1rem;
-    border: 1px solid rgb(48, 48, 48);
-    box-shadow: 0.05em 0.05em 1em rgba(255, 255, 255, 0.1);
-    padding: 1rem;
-  }
-
   .container {
     height: 100%;
     display: flex;
