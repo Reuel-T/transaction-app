@@ -28,6 +28,7 @@
         </button>
       </div>
     </div>
+
     <form
       v-if="showForm"
       class="transaction-form"
@@ -123,14 +124,6 @@
 </script>
 
 <style lang="scss" scoped>
-  .card {
-    backdrop-filter: blur(1px);
-    border-radius: 1rem;
-    border: 1px solid rgb(48, 48, 48);
-    box-shadow: 0.05em 0.05em 1em rgba(255, 255, 255, 0.1);
-    padding: 0.25rem;
-  }
-
   .transaction {
     display: flex;
     flex-direction: column;
@@ -139,6 +132,7 @@
     .transaction-row {
       display: flex;
       flex-direction: row;
+      padding: 0.0125rem 0;
 
       .transaction-row-item {
         display: flex;

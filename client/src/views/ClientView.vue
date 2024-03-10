@@ -27,6 +27,7 @@
           :client-id="Number($route.params.id)"
         />
 
+        <!-- Transaction List -->
         <div class="container card">
           <ClientTransactions
             v-if="

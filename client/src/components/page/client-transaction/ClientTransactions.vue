@@ -1,9 +1,17 @@
 <template>
   <div class="title-row">
     <h2>Transactions</h2>
-    <select v-model="sortField">
+    <label for="sortField">Sort:</label>
+    <select
+      id="sortField"
+      v-model="sortField"
+    >
       <option value="transactionID">Chronological</option>
       <option value="amount">Amount</option>
+    </select>
+    <select v-model="sortOrder">
+      <option value="asc">ASC</option>
+      <option value="desc">DESC</option>
     </select>
   </div>
 
@@ -19,9 +27,10 @@
     </div>
     <div class="heading-row-end"></div>
   </div>
+
   <div class="scroll">
     <ClientTransaction
-      v-for="transaction in transactions"
+      v-for="transaction in sortedTransactions"
       :key="transaction.transactionID"
       :transaction="transaction"
     />
@@ -31,10 +40,11 @@
 <script setup lang="ts">
   import ClientTransaction from './ClientTransaction.vue'
   import type { ClientTransactionDTO } from '@/models/ClientTransactionDTO'
+  import type { SortOrder } from '@/types/SortOrder'
   import type { TransactionSortType } from '@/types/TransactionSortTypes'
   import { ref, type PropType, computed } from 'vue'
 
-  defineProps({
+  const props = defineProps({
     transactions: {
       required: true,
       type: Array as PropType<ClientTransactionDTO[]>
@@ -42,9 +52,18 @@
   })
 
   const sortField = ref<TransactionSortType>('transactionID')
+  const sortOrder = ref<SortOrder>('asc')
 
   const sortedTransactions = computed(() => {
-    return ''
+    if (sortOrder.value === 'asc') {
+      return [...props.transactions].sort((t1: ClientTransactionDTO, t2: ClientTransactionDTO) => {
+        return t1[sortField.value] > t2[sortField.value] ? 1 : -1
+      })
+    } else {
+      return [...props.transactions].sort((t1: ClientTransactionDTO, t2: ClientTransactionDTO) => {
+        return t1[sortField.value] < t2[sortField.value] ? 1 : -1
+      })
+    }
   })
 </script>
 
@@ -57,11 +76,14 @@
   }
 
   .title-row {
+    align-items: center;
     display: flex;
     flex-direction: row;
     h2 {
       margin: 0;
+      flex-grow: 1;
     }
+    padding: 0 1rem;
   }
 
   .heading-row {
