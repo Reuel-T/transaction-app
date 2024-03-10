@@ -1,47 +1,62 @@
 <template>
   <div class="transaction">
-    <div class="info">
-      <p>
-        {{
-          localTransaction.amount.toLocaleString('en-ZA', { style: 'currency', currency: 'ZAR' })
-        }}
-      </p>
+
+    <div class="transaction-row">
+      <div class="transaction-row-item">
+        <p>{{ numberToCurrency(localTransaction.amount) }}</p>
+      </div>
+      <div class="transaction-row-item">
+        <p>{{ localTransaction.transactionTypeName }}</p>
+      </div>
+      <div class="transaction-row-item">
+        <p>{{ localTransaction.comment }}</p>
+      </div>
+      <div class="transaction-row-end">
+        <button @click="() => {showForm = !showForm}" class="btn">Edit</button>
+      </div>
     </div>
-    <div class="info">
-      <p>{{ localTransaction.transactionTypeName }}</p>
-    </div>
-    <div class="info">
-      <p>{{ localTransaction.comment }}</p>
-    </div>
-    <div class="info">
-      <form
+
+    
+      <form v-if="showForm" class="transaction-form"
         @submit.prevent="
           () => {
             handleSubmit()
           }
         "
       >
-        <input
-          v-model="formData.comment"
-          type="text"
-          placeholder="Transaction Comment"
-          :disabled="isUpdating"
-        />
-        <button
-          :type="'submit'"
-          :disabled="isUpdating"
-        >
-          Update Comment
-        </button>
+        <div class="form-group">
+          <label for="comment">Comment</label>
+          <input
+            id="comment"
+            v-model="formData.comment"
+            type="text"
+            placeholder="Transaction Comment"
+            :disabled="isUpdating"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="update">Update Comment</label>
+          <button
+            id="update"
+            :type="'submit'"
+            :disabled="isUpdating"
+          >
+            Update
+          </button>
+        </div>
+
       </form>
     </div>
-  </div>
 </template>
 
 <script setup lang="ts">
+  import { numberToCurrency } from '@/helpers/helpers';
   import type { ClientTransactionDTO } from '@/models/ClientTransactionDTO'
   import { usePutTransactionComment } from '@/shared/usePutComment'
   import { ref, type PropType, watch, reactive } from 'vue'
+
+  const showForm = ref<boolean>(false)
 
   const props = defineProps({
     transaction: {
@@ -96,10 +111,31 @@
 <style lang="scss" scoped>
   .transaction {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
 
-    .info {
-      width: 20rem;
+    .transaction-row{
+      display: flex;
+      flex-direction: row;
+      
+      .transaction-row-item{
+        width: 30%;
+      }
+
+      .transaction-row-end{
+        width: 10%;
+      }
+
+    }
+
+    .transaction-form{
+      display: flex;
+      flex-direction: row;
+
+      .form-group{
+        display: flex;
+        flex-direction: column;
+      }
+
     }
   }
 </style>
