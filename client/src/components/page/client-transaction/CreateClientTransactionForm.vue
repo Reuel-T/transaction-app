@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="card"
-  >
+  <div class="card">
     <h3>Create New Transaction</h3>
     <form @submit.prevent="onSubmit">
       <!-- Comment -->

@@ -17,9 +17,7 @@
     <div class="heading-row-item">
       <h3>Comment</h3>
     </div>
-    <div class="heading-row-end">
-      
-    </div>
+    <div class="heading-row-end"></div>
   </div>
   <div class="scroll">
     <ClientTransaction
@@ -33,7 +31,7 @@
 <script setup lang="ts">
   import ClientTransaction from './ClientTransaction.vue'
   import type { ClientTransactionDTO } from '@/models/ClientTransactionDTO'
-  import type { TransactionSortType } from '@/types/TransactionSortTypes';
+  import type { TransactionSortType } from '@/types/TransactionSortTypes'
   import { ref, type PropType, computed } from 'vue'
 
   defineProps({
@@ -43,12 +41,11 @@
     }
   })
 
-  const sortField = ref<TransactionSortType>('transactionID');
+  const sortField = ref<TransactionSortType>('transactionID')
 
   const sortedTransactions = computed(() => {
-  return '';
+    return ''
   })
-  
 </script>
 
 <style lang="scss" scoped>
@@ -59,29 +56,27 @@
     scrollbar-width: thin;
   }
 
-  .title-row{
+  .title-row {
     display: flex;
     flex-direction: row;
-    h2{
+    h2 {
       margin: 0;
     }
   }
 
-  .heading-row{
+  .heading-row {
     display: flex;
     flex-direction: row;
 
-    .heading-row-item{
+    .heading-row-item {
       width: 30%;
-      h3{
+      h3 {
         text-align: center;
       }
     }
 
-    .heading-row-end{
+    .heading-row-end {
       width: 10%;
     }
-
   }
-  
 </style>

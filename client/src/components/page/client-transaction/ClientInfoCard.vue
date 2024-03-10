@@ -5,7 +5,11 @@
     <h3 v-else>{{ client.name }} {{ client.surname }}</h3>
     <h1>
       Balance: <span v-if="isLoading || !client">Loading...</span>
-      <span :class="client.clientBalance > 0 ? 'positive' : 'negative'" v-else>{{ numberToCurrency(client.clientBalance) }}</span>
+      <span
+        :class="client.clientBalance > 0 ? 'positive' : 'negative'"
+        v-else
+        >{{ numberToCurrency(client.clientBalance) }}</span
+      >
     </h1>
   </div>
 </template>

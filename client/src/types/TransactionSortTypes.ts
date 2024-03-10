@@ -1,1 +1,1 @@
-export type TransactionSortType = 'transactionID' | 'amount';
+export type TransactionSortType = 'transactionID' | 'amount'
