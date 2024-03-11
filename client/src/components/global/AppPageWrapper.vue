@@ -15,7 +15,7 @@
     height: 85vh;
     width: 85vw;
     max-width: 900px;
-    padding: 0rem 2rem;
+    padding: 0rem 2rem 2rem 2rem;
 
     h1 {
       margin: 0;
