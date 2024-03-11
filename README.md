@@ -63,6 +63,14 @@ Once successfully running, you can visit https://localhost:7333/swagger/index.ht
 
 #### Client
 
+```
+.
+├── client/
+│   └── package.json
+├── db
+└── transaction-api
+```
+
 To run the client navigate to the client folder and run
 
 ```bash
