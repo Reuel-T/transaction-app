@@ -53,6 +53,7 @@
           id="submit"
           class="btn pill"
           type="submit"
+          :disabled="isPosting"
         >
           Create
         </button>
