@@ -41,7 +41,7 @@ Set the connection string. Place the connection string of your newly created dat
   }
 ```
 
-This requires .NET 8. This project was created using Visual Studio, but running
+This requires .NET 8. This project was created using Visual Studio so you can open up the solution and run it there, but running
 
 ```bash
 dotnet run
