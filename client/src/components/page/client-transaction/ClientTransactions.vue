@@ -1,4 +1,5 @@
 <template>
+  <!-- Title and sorting fields -->
   <div class="title-row">
     <h2>Transactions</h2>
     <label for="sortField">Sort:</label>
@@ -19,6 +20,7 @@
     </select>
   </div>
 
+  <!-- Transaction headings -->
   <div class="heading-row">
     <div class="heading-row-item">
       <h3>Amount</h3>
@@ -32,6 +34,7 @@
     <div class="heading-row-end"></div>
   </div>
 
+  <!-- If no transactions, -->
   <div
     v-if="transactions.length < 1"
     class="card"
@@ -39,6 +42,7 @@
     <h3>No Transactions...</h3>
   </div>
 
+  <!-- Display all client transactions -->
   <transition-group
     tag="div"
     class="scroll"
@@ -70,6 +74,7 @@
   const sortField = ref<TransactionSortType>('transactionID')
   const sortOrder = ref<SortOrder>('desc')
 
+  //sorts transactions whenever the sorting fields change
   const sortedTransactions = computed(() => {
     if (sortOrder.value === 'asc') {
       return [...props.transactions].sort((t1: ClientTransactionDTO, t2: ClientTransactionDTO) => {

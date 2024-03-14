@@ -72,9 +72,11 @@
     clientBalance: 0
   })
 
+  //emit event, so the parent knows that this has been updated
   const emit = defineEmits(['client-posted'])
 
   const { isPosting, postData } = usePostClient({
+    //emit the newly created client and reset the form
     onSuccess: (data) => {
       emit('client-posted', { ...data })
       formData.name = ''

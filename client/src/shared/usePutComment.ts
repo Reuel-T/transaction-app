@@ -13,10 +13,13 @@ export function usePutTransactionComment({
   onSuccess = () => {},
   onError = () => {}
 }: UsePutClientTransactionProps) {
+
+  //called in implementing components
   function putData(requestBody: { transactionID: number; comment: string }) {
     putComment(requestBody)
   }
 
+  //actual put function
   async function putComment(requestBody: { transactionID: number; comment: string }) {
     try {
       const requestOptions = {

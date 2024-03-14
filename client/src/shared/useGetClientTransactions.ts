@@ -8,10 +8,13 @@ const is404 = ref<null | boolean>(null)
 const transactions = ref<ClientTransactionDTO[]>()
 
 export function useGetClientTransactions(clientID: number) {
+  //fetch clients on focus to keep list current
   window.addEventListener('focus', () => {
     fetchClientTransactions()
   })
-  fetchClientTransactions()
+  fetchClientTransactions()//initial fetch
+
+  //fetch function
   async function fetchClientTransactions() {
     try {
       isLoading.value = true

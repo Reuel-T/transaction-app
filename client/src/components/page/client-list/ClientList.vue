@@ -73,6 +73,7 @@
     name="list"
     appear
   >
+    <!-- Client List  -->
     <ClientData
       v-for="client in sortedClients"
       :key="client.clientID"
@@ -100,6 +101,7 @@
     }
   })
 
+  //sorting function, sorts via object indexing (object[field])
   const sortedClients = computed(() => {
     const filtered = [...props.clients].filter((client) => {
       return `${client.name} ${client.surname}`

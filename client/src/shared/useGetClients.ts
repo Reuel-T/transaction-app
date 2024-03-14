@@ -7,10 +7,12 @@ const isLoading = ref<boolean>(false)
 const isError = ref<boolean>(false)
 
 export function useClients() {
+  //refecth clients when window gains focus (helps to keep data current)
   window.addEventListener('focus', () => {
     fetchClients()
   })
   fetchClients()
+  //fetch function
   async function fetchClients() {
     try {
       isLoading.value = true

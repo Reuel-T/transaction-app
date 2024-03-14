@@ -1,6 +1,11 @@
 <template>
+  <!-- 
+    Component that displays a single transaction 
+    and update comment form
+   -->
   <div class="transaction card">
     <div class="transaction-row">
+      <!-- Transaction Amount -->
       <div class="transaction-row-item">
         <p
           class="money"
@@ -9,12 +14,15 @@
           {{ numberToCurrency(localTransaction.amount) }}
         </p>
       </div>
+      <!-- Transaction Type -->
       <div class="transaction-row-item">
         <p>{{ localTransaction.transactionTypeName }}</p>
       </div>
+      <!-- Comment -->
       <div class="transaction-row-item">
         <p>{{ localTransaction.comment }}</p>
       </div>
+      <!-- Button to show/hide update comment form -->
       <div class="transaction-row-end">
         <button
           @click="
@@ -29,6 +37,7 @@
       </div>
     </div>
 
+    <!-- Update comment form -->
     <form
       v-if="showForm"
       class="transaction-form"
@@ -38,6 +47,7 @@
         }
       "
     >
+      <!-- Comment -->
       <div class="form-group">
         <label for="comment">Comment</label>
         <input
@@ -49,6 +59,7 @@
         />
       </div>
 
+      <!-- Submit Button -->
       <div class="form-group">
         <label for="update"><span>&ThickSpace;</span></label>
         <button

@@ -1,6 +1,7 @@
 <template>
   <AppPageWrapper>
     <div class="container">
+      <!-- Back Button and title -->
       <div class="title-wrapper">
         <RouterLink
           to="/"
@@ -67,7 +68,10 @@
   import { useRoute } from 'vue-router'
   import type { ClientTransactionDTO } from '@/models/ClientTransactionDTO'
 
+  //gets client id from route
   const route = useRoute()
+
+  //destructures hook for different fields
   const {
     client,
     foundClient,

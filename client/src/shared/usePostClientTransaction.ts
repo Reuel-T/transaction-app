@@ -14,10 +14,13 @@ export function usePostClientTransaction({
   onSuccess = () => {},
   onError = () => {}
 }: UsePostClientTransactionProps) {
+
+  //function to return to allow easy usage in implementing component
   function postData(requestBody: CreateClientTransactionDTO) {
     postClient(requestBody)
   }
 
+  //post function
   async function postClient(requestBody: CreateClientTransactionDTO) {
     try {
       const requestOptions = {

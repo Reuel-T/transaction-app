@@ -11,10 +11,13 @@ interface UsePostClientProps {
 const isPosting = ref<boolean>(false)
 
 export function usePostClient({ onSuccess = () => {}, onError = () => {} }: UsePostClientProps) {
+  
+  //wrapper to make easily exportable function
   function postData(requestBody: CreateClientDTO) {
     postClient(requestBody)
   }
 
+  //posting function
   async function postClient(requestBody: CreateClientDTO) {
     try {
       const requestOptions = {

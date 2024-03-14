@@ -1,3 +1,4 @@
+<!-- Client List Page -->
 <template>
   <AppPageWrapper>
     <div class="container">
@@ -9,6 +10,7 @@
         <p>There was an Error</p>
       </div>
 
+      <!-- Form to create a client -->
       <div v-if="!isError && !isLoading">
         <CreateClientForm
           style="margin-bottom: 0.5rem"
@@ -20,6 +22,7 @@
         />
       </div>
 
+      <!-- List of clients -->
       <div
         class="card container"
         style="margin-bottom: 0.5rem"
