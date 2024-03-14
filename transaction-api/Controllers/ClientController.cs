@@ -215,8 +215,8 @@ namespace transaction_api.Controllers
         [SwaggerResponse(500, "Internal server error", typeof(void))]
         public async Task<ActionResult> DeleteClient(int id) 
         {
-            //try
-            //{
+            try
+            {
                 // If model is invalid, return BadRequest
                 if (!ModelState.IsValid)
                 {
@@ -245,12 +245,12 @@ namespace transaction_api.Controllers
                     // If client does not exist, return NotFound
                     return NotFound();
                 }
-            //}
-            //catch (Exception ex)
-            //{
+            }
+            catch (Exception ex)
+            {
                 // Log and handle exceptions
-              //  return LogError(ex);
-            //}
+                return LogError(ex);
+            }
         }
     
         /// <summary>
