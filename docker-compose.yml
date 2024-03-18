@@ -1,0 +1,30 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP.NET Core service.
+
+version: '3.4'
+
+services:
+  transactionapi:
+    build:
+      context: .
+      dockerfile: transaction-api/Dockerfile
+    ports:
+      - 5333:5333
+
+  transaction-db:
+    image: transaction-db
+    build:
+      context: .
+      dockerfile: db/Dockerfile
+    ports:
+      - 3341:1433
+    environment:
+      MSSQL_SA_PASSWORD: YourStrong@Passw0rd
+      MSSQL_PID: 'Developer'
+      ACCEPT_EULA: 'Y'
+    volumes:
+      - v-transaction-data:/var/opt/mssql
+
+volumes:
+  v-transaction-data:
+      
+
