@@ -9,6 +9,8 @@ services:
       dockerfile: transaction-api/Dockerfile
     ports:
       - 5333:5333
+    environment:
+      - ISDOCKER=true
 
   transaction-db:
     image: transaction-db
