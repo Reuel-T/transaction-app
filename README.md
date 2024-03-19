@@ -25,7 +25,8 @@ Run this in SSMS
 
 #### API
 
-Set the connection string. Place the connection string of your newly created database in `appsettings.json`
+Set the connection string. Place the connection string of your newly created database in `appsettings.json` If running the containerised version, you should use the DockerConnection string instead, as 
+an environment variable is set in the container version to use the Docker one instead
 
 ```
 .
@@ -37,7 +38,8 @@ Set the connection string. Place the connection string of your newly created dat
 
 ```json
 "ConnectionStrings": {
-    "DefaultConnection": "YOUR CONNECTION STRING GOES HERE"
+    "DefaultConnection": "YOUR CONNECTION STRING GOES HERE",
+    "DockerConnection" : "DOCKER CONNECTION STRING"
   }
 ```
 
@@ -60,6 +62,8 @@ in the project directory should suffice.
 The API is configured to listen on :https://localhost:7333 (This might require the acceptance of developer certificates)
 
 Once successfully running, you can visit https://localhost:7333/swagger/index.html to have a look at and play with the routes in the API  without having to run any client application if you wish
+
+Running the API/Database in Docker (through docker compose) uses http://localhost:5333 for the API and port `3341` for the database. It also creates a volume, so the data will be persisted between container restarts
 
 #### Client
 
