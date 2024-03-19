@@ -90,4 +90,4 @@ Followed by:
 npm run dev
 ```
 
-The client runs on http://localhost:5173/
+The client runs on http://localhost:5173/, Right now I have no plans to put it in a container as well
