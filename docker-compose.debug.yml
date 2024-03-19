@@ -12,7 +12,9 @@ services:
         - configuration=Debug
     ports:
       - 5333:5333
+      - 7333:7333
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-    volumes:
-      - ~/.vsdbg:/remote_debugger:rw
+      - ASPNETCORE_URLS=https://+:7333;http://+:5333
+#    volumes:
+#      - ~/.vsdbg:/remote_debugger:rw
