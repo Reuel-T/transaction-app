@@ -84,7 +84,7 @@ The API is configured to listen on :https://localhost:7333 (This might require t
 
 Once successfully running, you can visit https://localhost:7333/swagger/index.html to have a look at and play with the routes in the API for testing purposes without having to run any client application if you wish. On the containerised version visit http://localhost:5333/swagger/index.html
 
-Running the API in Docker (through docker compose) uses http://localhost:5333 for the API and 
+Running the API in Docker (through docker compose) uses http://localhost:5333
 
 #### Client
 
