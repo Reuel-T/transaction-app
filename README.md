@@ -7,11 +7,30 @@ This App consists of three parts:
 - [.NET 8 Web API](https://dotnet.microsoft.com/en-us/)
 - [SQL Server Database](https://www.microsoft.com/en-za/sql-server/sql-server-downloads)
 
+This is also set up to run the API and Database in Docker if you wish to do so
+
 ### Setup
 
 #### Database
 
-A script to create the database schema and data within is included. Extra Linux based script included for SQL Server running in Linux Containers
+A script to create the database schema and data within is included. Extra Linux based script included for SQL Server running in Linux Containers.
+
+To run the docker containers use the following command in the project root
+```bash
+docker compose up -d
+```
+
+To set up the database in the container, you will need to login in using your DBMS of choice (SSMS or 
+Azure Data Studio recommended)
+
+The database in the container uses port `3341`.
+You need to use the `sa` login to access it initially as that is the only way in
+
+``` 
+    Username: sa
+    Password: YourStrong@Passw0rd
+```
+
 
 ```
 .
@@ -24,9 +43,6 @@ A script to create the database schema and data within is included. Extra Linux 
 ```
 
 An untested script has been included in `db` to create the login and user for the `EG_Transactions` database. If this does not work, you should create your own user and modify the connection string.
-
-
-Run this in SSMS
 
 #### API
 
@@ -66,9 +82,9 @@ in the project directory should suffice.
 
 The API is configured to listen on :https://localhost:7333 (This might require the acceptance of developer certificates)
 
-Once successfully running, you can visit https://localhost:7333/swagger/index.html to have a look at and play with the routes in the API  without having to run any client application if you wish
+Once successfully running, you can visit https://localhost:7333/swagger/index.html to have a look at and play with the routes in the API for testing purposes without having to run any client application if you wish. On the containerised version visit http://localhost:5333/swagger/index.html
 
-Running the API/Database in Docker (through docker compose) uses http://localhost:5333 for the API and port `3341` for the database. It also creates a volume, so the data will be persisted between container restarts
+Running the API in Docker (through docker compose) uses http://localhost:5333 for the API and 
 
 #### Client
 
@@ -90,4 +106,4 @@ Followed by:
 npm run dev
 ```
 
-The client runs on http://localhost:5173/, Right now I have no plans to put it in a container as well
+The client runs on http://localhost:5173/ 

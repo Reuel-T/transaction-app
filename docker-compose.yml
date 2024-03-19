@@ -11,6 +11,7 @@ services:
       - 5333:5333
     environment:
       - ISDOCKER=true
+      - ASPNETCORE_ENVIRONMENT=Development
 
   transaction-db:
     image: transaction-db
