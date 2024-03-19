@@ -3,6 +3,7 @@
     public  class Constants
     {
         public const string DefaultConnection = "DefaultConnection";
+        public const string DockerConnection = "DockerConnection";
 
         public struct Tables
         {

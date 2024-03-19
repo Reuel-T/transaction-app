@@ -10,6 +10,7 @@ namespace transaction_api.Context
     public class DapperContext
     {
         private readonly IConfiguration _configuration;
+        private readonly ILogger<DapperContext> _logger;
         private readonly string _connectionString;
         
         /// <summary>
@@ -17,11 +18,22 @@ namespace transaction_api.Context
         /// </summary>
         /// <param name="configuration">The configuration containing connection details.</param>
         /// <exception cref="Exception">Thrown when the connection string is not found in the configuration.</exception>
-        public DapperContext (IConfiguration configuration)
+        public DapperContext (IConfiguration configuration, ILogger<DapperContext> logger)
         {
+            _logger = logger;
             _configuration = configuration;
 
-            string? connectionString = _configuration.GetConnectionString(DefaultConnection);
+            string? connectionString;
+
+            if (Environment.GetEnvironmentVariable("ISDOCKER") != null)
+            {
+                connectionString = _configuration.GetConnectionString(DockerConnection);
+                _logger.Log(LogLevel.Information, "Using Docker Database");
+            }else
+            {
+                connectionString = _configuration.GetConnectionString(DefaultConnection);
+                _logger.Log(LogLevel.Information, "Using Windows Database");
+            }
 
             if (connectionString != null)
             {

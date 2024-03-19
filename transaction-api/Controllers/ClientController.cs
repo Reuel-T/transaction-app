@@ -30,15 +30,15 @@ namespace transaction_api.Controllers
         [SwaggerResponse(500, "Internal server error", typeof(void))]
         public async Task<ActionResult<IEnumerable<Client>>> GetClients()
         {
-            try
-            {
+            //try
+            //{
                 var clients = await _clientRepository.GetClientsAsync();
                 return Ok(clients);
-            }
-            catch (Exception ex)
-            {
-                return LogError(ex);
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    return LogError(ex);
+            //}
         }
 
         /// <summary>

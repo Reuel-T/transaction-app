@@ -1,0 +1,20 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP.NET Core service.
+
+version: '3.4'
+
+services:
+  transactionapi:
+    image: transactionapi
+    build:
+      context: .
+      dockerfile: transaction-api/Dockerfile
+      args:
+        - configuration=Debug
+    ports:
+      - 5333:5333
+      - 7333:7333
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:7333;http://+:5333
+#    volumes:
+#      - ~/.vsdbg:/remote_debugger:rw
