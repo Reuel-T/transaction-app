@@ -11,7 +11,7 @@ This App consists of three parts:
 
 #### Database
 
-A script to create the database schema and data within is included
+A script to create the database schema and data within is included. Extra Linux based script included for SQL Server running in Linux Containers
 
 ```
 .
@@ -19,6 +19,7 @@ A script to create the database schema and data within is included
 ├── transaction-api
 └── db/
     └── EG_Transactions.sql
+    └── EG_Transactions_Linux.sql
 ```
 
 Run this in SSMS
