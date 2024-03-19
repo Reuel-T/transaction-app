@@ -20,14 +20,18 @@ A script to create the database schema and data within is included. Extra Linux 
 └── db/
     └── EG_Transactions.sql
     └── EG_Transactions_Linux.sql
+    └── EG_Transactions_User_Create.sql
 ```
+
+An untested script has been included in `db` to create the login and user for the `EG_Transactions` database. If this does not work, you should create your own user and modify the connection string.
+
 
 Run this in SSMS
 
 #### API
 
 Set the connection string. Place the connection string of your newly created database in `appsettings.json` If running the containerised version, you should use the DockerConnection string instead, as 
-an environment variable is set in the container version to use the Docker one instead
+an environment variable is set in the container version to use the Docker one instead.
 
 ```
 .
