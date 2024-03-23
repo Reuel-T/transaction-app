@@ -1,5 +1,7 @@
-﻿using System.Data;
+﻿using Dapper;
+using System.Data;
 using System.Data.SqlClient;
+using transaction_api.Interfaces;
 using static transaction_api.Constants.Constants;
 
 namespace transaction_api.Context
@@ -7,7 +9,7 @@ namespace transaction_api.Context
     /// <summary>
     /// Represents a context for managing Dapper connections.
     /// </summary>
-    public class DapperContext
+    public class DapperContext : IDapperContext
     {
         private readonly IConfiguration _configuration;
         private readonly ILogger<DapperContext> _logger;
@@ -54,5 +56,10 @@ namespace transaction_api.Context
             return new SqlConnection(_connectionString);
         }
 
+        public async Task<T?> QuerySingleOrDefaultAsync<T>(string sql, object? param = null, IDbTransaction? transaction = null, int? commandTimeout = null, CommandType? commandType = null)
+        {
+            using var connection = this.CreateConnection();
+            return await connection.QuerySingleOrDefaultAsync<T>(sql, param, transaction, commandTimeout, commandType);
+        }
     }
 }

@@ -9,10 +9,10 @@ namespace transaction_api.Repositories
 {
     public class TransactionRepository : ITransactionRepository
     {
-        private readonly DapperContext _context;
+        private readonly IDapperContext _context;
         private readonly ILogger<TransactionRepository> _logger;
 
-        public TransactionRepository(DapperContext context, ILogger<TransactionRepository> logger)
+        public TransactionRepository(IDapperContext context, ILogger<TransactionRepository> logger)
         {
             _context = context;
             _logger = logger;

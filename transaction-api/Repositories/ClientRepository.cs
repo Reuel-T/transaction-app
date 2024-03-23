@@ -10,7 +10,7 @@ namespace transaction_api.Repositories
 {
     public class ClientRepository : IClientRepository
     {
-        private readonly DapperContext _context;
+        private readonly IDapperContext _context;
         private readonly ILogger<ClientRepository> _logger;
         
         private record DeleteClientResponse 
@@ -24,7 +24,7 @@ namespace transaction_api.Repositories
         /// </summary>
         /// <param name="logger">The logger used for logging information, warnings, and errors.</param>
         /// <param name="context">The Dapper context providing database connections.</param>
-        public ClientRepository(ILogger<ClientRepository> logger, DapperContext context)
+        public ClientRepository(ILogger<ClientRepository> logger, IDapperContext context)
         {
             _logger = logger;
             _context = context;
@@ -130,8 +130,7 @@ namespace transaction_api.Repositories
             ";
 
             //Get the client
-            using var connection = _context.CreateConnection();
-            var client = await connection.QuerySingleOrDefaultAsync<Client>(query, new { Id = clientId });
+            var client = await _context.QuerySingleOrDefaultAsync<Client>(query, new { Id = clientId });
 
             // Return the retrieved client
             return client;

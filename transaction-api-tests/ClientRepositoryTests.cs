@@ -2,6 +2,7 @@ using Dapper;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System.Data;
+using transaction_api.Interfaces;
 using transaction_api.Repositories;
 
 
@@ -11,36 +12,34 @@ namespace transaction_api_tests
     public class ClientRepositoryTests
     {
         private readonly Mock<IDapperContext> _mockContext;
-        private readonly Mock<IClientRepository> _MockClientRepository;
+        private readonly Mock<ILogger<ClientRepository>> _mockLogger;
 
         public ClientRepositoryTests()
         {
             _mockContext = new Mock<IDapperContext>();
-            _MockClientRepository = new Mock<IClientRepository>();
+            _mockLogger = new Mock<ILogger<ClientRepository>>();
         }
 
         [Fact]
-        [Trait("ClientRepository", "GetClientsAsync")]
-        public async Task GetClientAsync_ReturnsClients()
+        public async Task GetClientAsync_ReturnsClient()
         {
-            //Arrange
-            var expectedClients = new List<Client>
-            {
-                new Client {ClientID = 1, ClientBalance = 1000, Name= "John", Surname = "Doe"},
-                new Client {ClientID = 2, ClientBalance = 2000, Name= "Jane", Surname = "Doe"},
-                new Client {ClientID = 3, ClientBalance = 3000, Name= "Joe", Surname = "Doe"}
-            };
+            // Arrange
+            int clientId = 1; // Example client ID
+            var expectedClient = new Client { ClientID = clientId, Name = "John", Surname = "Doe", ClientBalance = 100.00M };
+            
+            _mockContext.Setup(ctx => ctx.QuerySingleOrDefaultAsync<Client>(
+                It.IsAny<string>(), 
+                It.IsAny<object>(),
+                null, null, null)).ReturnsAsync(expectedClient);
 
-            //set up the client repository mock to return the expected list of clients
-            _MockClientRepository.Setup(repo => repo.GetClientsAsync())
-                .ReturnsAsync(expectedClients);
 
-            //Act
-            //run the getClientsAsync method
-            var result = await _MockClientRepository.Object.GetClientsAsync();
+            ClientRepository _clientRepository = new ClientRepository(_mockLogger.Object, _mockContext.Object);
 
-            //Assert
-            Assert.Equal(expectedClients, result);
-        }     
+            // Act
+            var result = await _clientRepository.GetClientAsync(clientId);
+
+            // Assert
+            Assert.Equal(expectedClient, result);
+        }
     }
 }

@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 //single connection instance
-builder.Services.AddSingleton<DapperContext>();//DB Service
+builder.Services.AddSingleton<IDapperContext, DapperContext>();//DB Service
 
 //inject repos
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
